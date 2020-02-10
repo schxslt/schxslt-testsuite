@@ -1,0 +1,58 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified" targetNamespace="tag:dmaus@dmaus.name,2019:Schematron:Testsuite">
+  <xs:element name="testcase">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="label" minOccurs="1" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:string"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="reference" minOccurs="0" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:string"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="documents">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="document" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:any minOccurs="1" maxOccurs="1" processContents="skip"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:ID" use="optional"/>
+                  <xs:attribute name="filename" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="schemas">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any minOccurs="1" maxOccurs="unbounded" processContents="skip"/>
+            </xs:sequence>
+            <xs:attribute name="phase" use="optional" type="xs:string"/>
+            <xs:attribute name="document" type="xs:IDREF" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="expectations" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="expectation" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="test" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:ID" use="required"/>
+      <xs:attribute name="expectValid" type="xs:boolean" use="required"/>
+      <xs:attribute name="features" type="xs:NMTOKENS" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
