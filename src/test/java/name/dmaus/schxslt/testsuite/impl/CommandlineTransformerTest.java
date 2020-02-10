@@ -46,7 +46,8 @@ class CommandlineTransformerTest
         Path stylesheet = Paths.get("src/test/resources/simple.xsl");
         Path document = Paths.get("src/test/resources/simple.xsl");
 
-        CommandlineTransformer transformer = new CommandlineTransformer(stylesheet);
+        CommandlineBuilder builder = new CommandlineBuilder();
+        CommandlineTransformer transformer = new CommandlineTransformer(stylesheet, builder);
         transformer.setParameter("phase", "phase");
         Path target = transformer.transform(document);
 

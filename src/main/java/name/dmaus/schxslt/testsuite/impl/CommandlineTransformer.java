@@ -39,10 +39,12 @@ class CommandlineTransformer
 {
     final Map<String, String> parameters = new HashMap<String, String>();
     final Path stylesheet;
+    final CommandlineBuilder commandlineBuilder;
 
-    CommandlineTransformer (final Path stylesheet)
+    CommandlineTransformer (final Path stylesheet, final CommandlineBuilder commandlineBuilder)
     {
         this.stylesheet = stylesheet;
+        this.commandlineBuilder = commandlineBuilder;
     }
 
     void setParameter (final String name, final String value)
@@ -54,7 +56,6 @@ class CommandlineTransformer
     {
         Path target = Files.createTempFile(null, null);
 
-        CommandlineBuilder commandlineBuilder = new CommandlineBuilder();
         commandlineBuilder
             .setDocument(document)
             .setStylesheet(stylesheet)
