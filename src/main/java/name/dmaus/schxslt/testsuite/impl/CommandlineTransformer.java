@@ -57,6 +57,7 @@ class CommandlineTransformer
         Path target = Files.createTempFile(null, null);
 
         commandlineBuilder
+            .reset()
             .setDocument(document)
             .setStylesheet(stylesheet)
             .setParameters(parameters)

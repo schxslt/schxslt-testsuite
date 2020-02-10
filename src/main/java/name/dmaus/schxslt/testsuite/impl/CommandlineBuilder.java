@@ -60,6 +60,15 @@ class CommandlineBuilder
         return this;
     }
 
+    CommandlineBuilder reset ()
+    {
+        this.target = null;
+        this.stylesheet = null;
+        this.document = null;
+        this.parameters = null;
+        return this;
+    }
+
     String [] build ()
     {
         ArrayList<String> commands = new ArrayList<String>();
