@@ -38,7 +38,8 @@ class TestcaseSpec
     static final String NS_SCHEMATRON = "http://purl.oclc.org/dsdl/schematron";
 
     static final String NAME_QUERYBINDING = "queryBinding";
-    static final String NAME_DOCUMENT = "document";
+    static final String NAME_SECONDARY = "secondary";
+    static final String NAME_PRIMARY = "primary";
     static final String NAME_SCHEMAS = "schemas";
     static final String NAME_SCHEMA = "schema";
 
@@ -64,9 +65,14 @@ class TestcaseSpec
         return "error".equals(value);
     }
 
-    NodeList getDocuments ()
+    Element getPrimaryDocument ()
     {
-        return document.getElementsByTagNameNS(NS, NAME_DOCUMENT);
+        return (Element)document.getElementsByTagNameNS(NS, NAME_PRIMARY).item(0);
+    }
+
+    NodeList getSecondaryDocuments ()
+    {
+        return document.getElementsByTagNameNS(NS, NAME_SECONDARY);
     }
 
     String getPhase ()
@@ -78,12 +84,6 @@ class TestcaseSpec
     String getId ()
     {
         return document.getDocumentElement().getAttribute("id");
-    }
-
-    String getPrimaryDocumentId ()
-    {
-        Element schema = (Element)document.getElementsByTagNameNS(NS, NAME_SCHEMAS).item(0);
-        return schema.getAttribute(NAME_DOCUMENT);
     }
 
     String getLabel ()

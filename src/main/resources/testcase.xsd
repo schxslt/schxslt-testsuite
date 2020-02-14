@@ -16,12 +16,20 @@
         <xs:element name="documents">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="document" minOccurs="1" maxOccurs="unbounded">
+              <xs:element name="primary" minOccurs="1" maxOccurs="1">
                 <xs:complexType>
                   <xs:sequence>
                     <xs:any minOccurs="1" maxOccurs="1" processContents="skip"/>
                   </xs:sequence>
                   <xs:attribute name="id" type="xs:ID" use="optional"/>
+                  <xs:attribute name="filename" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="secondary" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:any minOccurs="1" maxOccurs="1" processContents="skip"/>
+                  </xs:sequence>
                   <xs:attribute name="filename" type="xs:string" use="required"/>
                 </xs:complexType>
               </xs:element>

@@ -151,43 +151,12 @@ class Testcase
 
             log.fine("Serializing documents");
 
-            String primaryDocumentId = spec.getPrimaryDocumentId();
-            log.fine("Primary document is " + primaryDocumentId);
-
-            NodeList documents = spec.getDocuments();
+            document = serialize(tempDirectory, spec.getPrimaryDocument());
+            
+            NodeList documents = spec.getSecondaryDocuments();
             for (int i = 0; i < documents.getLength(); i++) {
-
                 Element documentWrap = (Element)documents.item(i);
-                String documentId = documentWrap.getAttribute("id");
-                String filename = documentWrap.getAttribute("filename");
-                Path filepath = tempDirectory.resolve(filename).toAbsolutePath();
-
-                if (!filepath.startsWith(tempDirectory)) {
-                    throw new RuntimeException("Cannot populate file outside of temporary directory");
-                }
-
-                if (filepath.getParent() != null) {
-                    Files.createDirectories(filepath.getParent());
-                }
-
-                NodeList childNodes = documents.item(i).getChildNodes();
-                for (int j = 0; j < childNodes.getLength(); j++) {
-                    if (childNodes.item(j).getNodeType() == Element.ELEMENT_NODE) {
-
-                        Element documentElement = (Element)childNodes.item(j);
-
-                        Path documentFile = Files.createFile(filepath);
-                        log.fine("Serializing document " + documentId + " to " + documentFile.toString());
-
-                        serializer.serialize(documentElement, documentFile);
-
-                        if (primaryDocumentId.equals(documentId)) {
-                            document = documentFile;
-                        }
-
-                        break;
-                    }
-                }
+                serialize(tempDirectory, documentWrap);
             }
 
             queryBinding = queryBindingStr;
@@ -195,6 +164,36 @@ class Testcase
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    Path serialize (final Path directory, final Element documentWrap) throws IOException
+    {
+        String filename = documentWrap.getAttribute("filename");
+        Path filepath = directory.resolve(filename).toAbsolutePath();
+
+        if (!filepath.startsWith(directory)) {
+            throw new RuntimeException("Cannot populate file outside of target directory");
+        }
+
+        if (filepath.getParent() != null) {
+            Files.createDirectories(filepath.getParent());
+        }
+
+        NodeList childNodes = documentWrap.getChildNodes();
+        for (int j = 0; j < childNodes.getLength(); j++) {
+            if (childNodes.item(j).getNodeType() == Element.ELEMENT_NODE) {
+
+                Element documentElement = (Element)childNodes.item(j);
+
+                Path documentFile = Files.createFile(filepath);
+                log.fine("Serializing document " + documentFile.toString());
+
+                serializer.serialize(documentElement, documentFile);
+
+                break;
+            }
+        }
+        return filepath;
     }
 
     Namespaces createNamespaceContext (final Node startNode)

@@ -1,12 +1,12 @@
 <testcase xmlns="tag:dmaus@dmaus.name,2019:Schematron:Testsuite" expect="valid" id="example">
   <label>Example testcase</label>
   <documents>
-    <document filename="document.xml" id="primary">
+    <primary filename="document.xml" id="primary">
       <root xmlns=""/>
-    </document>
-    <document filename="foo/bar.xml">
+    </primary>
+    <secondary filename="foo/bar.xml">
       <foobar xmlns=""/>
-    </document>
+    </secondary>
   </documents>
   <schemas document="primary">
     <sch:schema id="xslt2" xmlns:sch="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
