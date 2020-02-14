@@ -99,6 +99,9 @@ public final class Driver
                     status = ValidationStatus.FAILURE;
                 }
             } catch (ValidationException | XPathExpressionException e) {
+                if (testcase.isExpectError()) {
+                    status = ValidationStatus.SUCCESS;
+                }
                 errorMessage = e.getMessage();
             }
         } else {

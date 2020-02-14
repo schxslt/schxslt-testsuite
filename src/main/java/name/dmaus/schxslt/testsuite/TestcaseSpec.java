@@ -52,7 +52,16 @@ class TestcaseSpec
     boolean isExpectValid ()
     {
         String value = document.getDocumentElement().getAttribute("expectValid");
-        return Boolean.parseBoolean(value);
+        if ("valid".equals(value)) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean isExpectError ()
+    {
+        String value = document.getDocumentElement().getAttribute("expectValid");
+        return "error".equals(value);
     }
 
     NodeList getDocuments ()

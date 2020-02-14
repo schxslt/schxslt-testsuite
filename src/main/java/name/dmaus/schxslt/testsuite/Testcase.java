@@ -98,6 +98,11 @@ class Testcase
         return spec.isExpectValid();
     }
 
+    boolean isExpectError ()
+    {
+        return spec.isExpectError();
+    }
+
     Set<String> getFeatures ()
     {
         Set<String> features = new HashSet<String>();

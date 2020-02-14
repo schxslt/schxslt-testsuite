@@ -1,4 +1,4 @@
-<testcase xmlns="tag:dmaus@dmaus.name,2019:Schematron:Testsuite" expectValid="true" id="example">
+<testcase xmlns="tag:dmaus@dmaus.name,2019:Schematron:Testsuite" expect="valid" id="example">
   <label>Example testcase</label>
   <documents>
     <document filename="document.xml" id="primary">

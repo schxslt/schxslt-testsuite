@@ -50,7 +50,15 @@
         </xs:element>
       </xs:sequence>
       <xs:attribute name="id" type="xs:ID" use="required"/>
-      <xs:attribute name="expectValid" type="xs:boolean" use="required"/>
+      <xs:attribute name="expect">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="valid"/>
+            <xs:enumeration value="invalid"/>
+            <xs:enumeration value="error"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
       <xs:attribute name="features" type="xs:NMTOKENS" use="optional"/>
     </xs:complexType>
   </xs:element>
