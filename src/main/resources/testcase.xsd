@@ -42,7 +42,6 @@
               <xs:any minOccurs="1" maxOccurs="unbounded" processContents="skip"/>
             </xs:sequence>
             <xs:attribute name="phase" use="optional" type="xs:string"/>
-            <xs:attribute name="document" type="xs:IDREF" use="required"/>
           </xs:complexType>
         </xs:element>
         <xs:element name="expectations" minOccurs="0" maxOccurs="unbounded">
