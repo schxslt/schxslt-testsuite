@@ -62,6 +62,7 @@ class SchXsltJavaValidation implements Validation
     {
         this.transformerFactory = transformerFactory;
         features.add("svrl");
+        features.add("iso2016");
     }
 
     public void setSchema (final Path path)
