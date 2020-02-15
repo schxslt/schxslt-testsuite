@@ -98,10 +98,12 @@ public final class Driver
                 } else {
                     status = ValidationStatus.FAILURE;
                 }
-            } catch (ValidationException | XPathExpressionException e) {
+            } catch (ValidationException e) {
                 if (testcase.isExpectError()) {
                     status = ValidationStatus.SUCCESS;
                 }
+                errorMessage = e.getMessage();
+            } catch (XPathExpressionException e) {
                 errorMessage = e.getMessage();
             }
         } else {
