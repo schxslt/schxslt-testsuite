@@ -103,6 +103,11 @@ class Testcase
         return spec.isExpectError();
     }
 
+    boolean isOptional ()
+    {
+        return spec.isOptional();
+    }
+
     Set<String> getFeatures ()
     {
         Set<String> features = new HashSet<String>();

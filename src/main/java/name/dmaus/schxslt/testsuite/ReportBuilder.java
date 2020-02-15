@@ -75,10 +75,17 @@ class ReportBuilder
 
             addAttribute(testcase, "id", validationResult.getTestcase().getId());
             addAttribute(testcase, "phase", validationResult.getTestcase().getPhase());
-            if (validationResult.getTestcase().isExpectValid()) {
-                addAttribute(testcase, "expectValid", "true");
+            if (validationResult.getTestcase().isExpectError()) {
+                addAttribute(testcase, "expect", "error");
+            } else if (validationResult.getTestcase().isExpectValid()) {
+                addAttribute(testcase, "expect", "valid");
             } else {
-                addAttribute(testcase, "expectValid", "false");
+                addAttribute(testcase, "expect", "invalid");
+            }
+            if (validationResult.getTestcase().isOptional()) {
+                addAttribute(testcase, "optional", "true");
+            } else {
+                addAttribute(testcase, "optional", "false");
             }
             addAttribute(testcase, "status", validationResult.getStatus().name().toLowerCase());
             addTerminalElement(testcase, "label", validationResult.getTestcase().getLabel());

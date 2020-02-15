@@ -65,6 +65,15 @@ class TestcaseSpec
         return "error".equals(value);
     }
 
+    boolean isOptional ()
+    {
+        if (document.getDocumentElement().hasAttribute("optional")) {
+            String value = document.getDocumentElement().getAttribute("optional");
+            return Boolean.parseBoolean(value);
+        }
+        return false;
+    }
+
     Element getPrimaryDocument ()
     {
         return (Element)document.getElementsByTagNameNS(NS, NAME_PRIMARY).item(0);
