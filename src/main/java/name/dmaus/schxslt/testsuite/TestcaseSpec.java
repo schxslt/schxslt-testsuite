@@ -52,7 +52,7 @@ class TestcaseSpec
 
     boolean isExpectValid ()
     {
-        String value = document.getDocumentElement().getAttribute("expectValid");
+        String value = document.getDocumentElement().getAttribute("expect");
         if ("valid".equals(value)) {
             return true;
         }
@@ -61,7 +61,7 @@ class TestcaseSpec
 
     boolean isExpectError ()
     {
-        String value = document.getDocumentElement().getAttribute("expectValid");
+        String value = document.getDocumentElement().getAttribute("expect");
         return "error".equals(value);
     }
 
