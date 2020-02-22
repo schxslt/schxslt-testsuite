@@ -27,9 +27,13 @@ package name.dmaus.schxslt.testsuite.impl;
 import javax.xml.transform.TransformerFactory;
 
 import name.dmaus.schxslt.testsuite.ValidationFactory;
+import name.dmaus.schxslt.testsuite.Validation;
+import name.dmaus.schxslt.testsuite.JavaValidation;
 
 class SchXsltJavaValidationFactory implements ValidationFactory
 {
+    final String[] compilationSteps = { "../schxslt/src/main/resources/xslt/2.0/include.xsl", "../schxslt/src/main/resources/xslt/2.0/expand.xsl", "../schxslt/src/main/resources/xslt/2.0/compile-for-svrl.xsl" };
+    
     final TransformerFactory transformerFactory;
     final String queryBinding;
     final String label;
@@ -52,8 +56,8 @@ class SchXsltJavaValidationFactory implements ValidationFactory
     }
 
 
-    public SchXsltJavaValidation newInstance ()
+    public Validation newInstance ()
     {
-        return new SchXsltJavaValidation(transformerFactory);
+        return new JavaValidation(transformerFactory, compilationSteps);
     }
 }
