@@ -58,6 +58,8 @@ class Testcase
     Path document;
     String queryBinding;
 
+    Path report;
+
     Testcase (final TestcaseSpec spec)
     {
         this.spec = spec;
@@ -76,6 +78,11 @@ class Testcase
     Path getDocument ()
     {
         return document;
+    }
+
+    Path getReport ()
+    {
+        return report;
     }
 
     String getPhase ()
@@ -150,6 +157,7 @@ class Testcase
             log.fine("Temporary directory " + tempDirectory.toString());
 
             schema = Files.createTempFile(tempDirectory, "schema", ".sch");
+            report = Files.createTempFile(tempDirectory, "report", ".xml");
 
             log.fine("Serializing Schematron to " + schema.toString());
             serializer.serialize(spec.getSchema(queryBindingStr), schema);
@@ -157,7 +165,7 @@ class Testcase
             log.fine("Serializing documents");
 
             document = serialize(tempDirectory, spec.getPrimaryDocument());
-            
+
             NodeList documents = spec.getSecondaryDocuments();
             for (int i = 0; i < documents.getLength(); i++) {
                 Element documentWrap = (Element)documents.item(i);

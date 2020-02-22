@@ -36,6 +36,8 @@ public final class Driver
 {
     static final Logger log = Logger.getLogger(Driver.class.getName());
 
+    final XMLSerializer serializer = new XMLSerializer();
+
     ValidationFactory validationFactory;
 
     public Driver (final ValidationFactory validationFactory)
@@ -88,10 +90,12 @@ public final class Driver
                 }
 
                 report = (Document)validation.getReport();
-
-                Expectation[] expectations = testcase.getExpectations();
-                for (int i = 0; i < expectations.length; i++) {
-                    success = success && expectations[i].isSatisfied(report);
+                if (report != null) {
+                    serializer.serialize(report, testcase.getReport());
+                    Expectation[] expectations = testcase.getExpectations();
+                    for (int i = 0; i < expectations.length; i++) {
+                        success = success && expectations[i].isSatisfied(report);
+                    }
                 }
                 if (success) {
                     status = ValidationStatus.SUCCESS;

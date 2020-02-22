@@ -95,6 +95,9 @@ class ReportBuilder
             }
             addAttribute(addTerminalElement(testcase, "document", null), "href", validationResult.getTestcase().getDocument().toString());
             addAttribute(addTerminalElement(testcase, "schema", null), "href", validationResult.getTestcase().getSchema().toString());
+            if (validationResult.getReport() != null) {
+                addAttribute(addTerminalElement(testcase, "report", null), "href", validationResult.getTestcase().getReport().toString());
+            }
         }
 
         return document;
