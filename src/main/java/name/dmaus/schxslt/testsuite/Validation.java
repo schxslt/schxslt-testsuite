@@ -28,6 +28,8 @@ import java.nio.file.Path;
 
 import java.util.Set;
 
+import org.w3c.dom.Document;
+
 public interface Validation
 {    
     void setSchema (Path schema);
@@ -40,7 +42,7 @@ public interface Validation
 
     boolean isValid ();
 
-    Object getReport ();
+    Document getReport ();
 
     void execute () throws ValidationException;
 }
