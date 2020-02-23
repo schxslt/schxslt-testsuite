@@ -39,7 +39,7 @@ class Application
         config.parse(args);
 
         ApplicationContext ctx = new FileSystemXmlApplicationContext(config.getConfigfile());
-        ValidationFactory validationFactory = (ValidationFactory)ctx.getBean("implementation");
+        ValidationFactory validationFactory = (ValidationFactory)ctx.getBean(config.getValidationFactoryName());
         Driver driver = new Driver(validationFactory);
         Testsuite testsuite = Testsuite.newInstance(Paths.get(config.getTestsuite()));
 

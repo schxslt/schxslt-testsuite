@@ -39,6 +39,7 @@ class Configuration
 
     Configuration ()
     {
+        options.addRequiredOption("b", "bean", true, "Name of ValidationFactory bean");
         options.addRequiredOption("c", "config", true, "Spring beans configuration file");
         options.addRequiredOption("t", "testsuite", true, "Testsuite");
     }
@@ -52,6 +53,11 @@ class Configuration
             printHelp();
             System.exit(1);
         }
+    }
+
+    String getValidationFactoryName ()
+    {
+        return arguments.getOptionValue("b");
     }
 
     String getTestsuite ()
