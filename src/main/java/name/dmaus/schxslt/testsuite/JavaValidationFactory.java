@@ -28,18 +28,20 @@ import javax.xml.transform.TransformerFactory;
 
 public class JavaValidationFactory implements ValidationFactory
 {
+    final String[] features;
     final String[] compilerSteps;
     final TransformerFactory transformerFactory;
 
     final String label;
     final String queryBinding;
 
-    public JavaValidationFactory (final String label, final String queryBinding, final TransformerFactory transformerFactory, final String[] compilerSteps)
+    public JavaValidationFactory (final String label, final String queryBinding, final TransformerFactory transformerFactory, final String[] features, final String[] compilerSteps)
     {
         this.label = label;
         this.queryBinding = queryBinding;
         this.transformerFactory = transformerFactory;
         this.compilerSteps = compilerSteps;
+        this.features = features;
     }
 
     public String getLabel ()
@@ -54,6 +56,6 @@ public class JavaValidationFactory implements ValidationFactory
 
     public JavaValidation newInstance ()
     {
-        return new JavaValidation(transformerFactory, compilerSteps);
+        return new JavaValidation(transformerFactory, features, compilerSteps);
     }
 }

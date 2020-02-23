@@ -60,10 +60,13 @@ public class JavaValidation implements Validation
     String phase;
     Document report;
 
-    public JavaValidation (final TransformerFactory transformerFactory, final String[] compilerSteps)
+    public JavaValidation (final TransformerFactory transformerFactory, final String[] features, final String[] compilerSteps)
     {
         this.transformerFactory = transformerFactory;
         this.compilerSteps = compilerSteps;
+        for (int i = 0; i < features.length; i++) {
+            this.features.add(features[i]);
+        }
     }
 
     public void setSchema (final Path schema)
