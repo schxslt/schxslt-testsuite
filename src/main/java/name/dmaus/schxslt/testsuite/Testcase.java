@@ -29,8 +29,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
-import java.util.logging.Logger;
-
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -50,7 +48,6 @@ import javax.xml.XMLConstants;
 
 class Testcase
 {
-    final Logger log = Logger.getLogger(Testcase.class.getName());
     final XMLSerializer serializer = new XMLSerializer();
     final TestcaseSpec spec;
 
@@ -149,20 +146,14 @@ class Testcase
 
     public void populate (final String queryBindingStr)
     {
-        log.fine("Populating testcase");
-
         try {
 
             Path tempDirectory = Files.createTempDirectory("testsuite-ng.").toAbsolutePath();
-            log.fine("Temporary directory " + tempDirectory.toString());
 
             schema = Files.createTempFile(tempDirectory, "schema", ".sch");
             report = Files.createTempFile(tempDirectory, "report", ".xml");
 
-            log.fine("Serializing Schematron to " + schema.toString());
             serializer.serialize(spec.getSchema(queryBindingStr), schema);
-
-            log.fine("Serializing documents");
 
             document = serialize(tempDirectory, spec.getPrimaryDocument());
 
@@ -199,7 +190,6 @@ class Testcase
                 Element documentElement = (Element)childNodes.item(j);
 
                 Path documentFile = Files.createFile(filepath);
-                log.fine("Serializing document " + documentFile.toString());
 
                 serializer.serialize(documentElement, documentFile);
 
