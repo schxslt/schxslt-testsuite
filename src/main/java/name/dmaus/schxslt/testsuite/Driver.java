@@ -26,16 +26,15 @@ package name.dmaus.schxslt.testsuite;
 
 import java.util.Set;
 
-import java.util.logging.Logger;
-
 import javax.xml.xpath.XPathExpressionException;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 
 public final class Driver
 {
-    static final Logger log = Logger.getLogger(Driver.class.getName());
-
     final XMLSerializer serializer = new XMLSerializer();
 
     ValidationFactory validationFactory;
@@ -45,22 +44,18 @@ public final class Driver
         this.validationFactory = validationFactory;
     }
 
-    public Document run (final Testsuite testsuite)
+    public List<ValidationResult> run (final Testsuite testsuite)
     {
-        ReportBuilder reportBuilder = new ReportBuilder();
-
-        reportBuilder.setLabel(testsuite.getLabel());
-        reportBuilder.setQueryBinding(validationFactory.getQueryBinding());
-        reportBuilder.setProductLabel(validationFactory.getLabel());
+        List<ValidationResult> results = new ArrayList<ValidationResult>();
 
         Testcase[] testcases = testsuite.getTestcases();
         for (int i = 0; i < testcases.length; i++) {
             testcases[i].populate(validationFactory.getQueryBinding());
             ValidationResult validationResult = runTestcase(testcases[i]);
-            reportBuilder.addValidationResult(validationResult);
+            results.add(validationResult);
         }
 
-        return reportBuilder.build();
+        return results;
     }
 
     ValidationResult runTestcase (final Testcase testcase)
@@ -74,8 +69,6 @@ public final class Driver
         ValidationStatus status = ValidationStatus.FAILURE;
         String errorMessage = null;
         Document report = null;
-
-        log.info("Running testcase " + testcase.getId());
 
         if (isFeatureMatch(validation, testcase)) {
 
@@ -114,8 +107,6 @@ public final class Driver
             status = ValidationStatus.SKIPPED;
             errorMessage = String.format("Required features not supported: %s", testcase.getFeatures());
         }
-
-        log.info("Testcase " + testcase.getId() + " " + status);
 
         return new ValidationResult(testcase, status, report, errorMessage);
     }
