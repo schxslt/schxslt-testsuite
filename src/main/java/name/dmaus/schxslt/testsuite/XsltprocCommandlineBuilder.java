@@ -22,53 +22,13 @@
  * SOFTWARE.
  */
 
-package name.dmaus.schxslt.testsuite.impl;
-
-import java.nio.file.Path;
+package name.dmaus.schxslt.testsuite;
 
 import java.util.Map;
 import java.util.ArrayList;
 
-class CommandlineBuilder
+class XsltprocCommandlineBuilder extends CommandlineBuilder
 {
-    Path target;
-    Path document;
-    Path stylesheet;
-    Map<String, String> parameters;
-
-    CommandlineBuilder setDocument (final Path document)
-    {
-        this.document = document;
-        return this;
-    }
-
-    CommandlineBuilder setStylesheet (final Path stylesheet)
-    {
-        this.stylesheet = stylesheet;
-        return this;
-    }
-
-    CommandlineBuilder setTarget (final Path target)
-    {
-        this.target = target;
-        return this;
-    }
-
-    CommandlineBuilder setParameters (final Map<String, String> parameters)
-    {
-        this.parameters = parameters;
-        return this;
-    }
-
-    CommandlineBuilder reset ()
-    {
-        this.target = null;
-        this.stylesheet = null;
-        this.document = null;
-        this.parameters = null;
-        return this;
-    }
-
     String [] build ()
     {
         ArrayList<String> commands = new ArrayList<String>();

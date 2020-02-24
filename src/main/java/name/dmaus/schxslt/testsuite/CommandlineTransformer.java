@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package name.dmaus.schxslt.testsuite.impl;
+package name.dmaus.schxslt.testsuite;
 
 import java.nio.file.Path;
 import java.nio.file.Files;

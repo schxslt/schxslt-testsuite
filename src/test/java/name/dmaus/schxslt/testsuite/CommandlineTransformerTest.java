@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package name.dmaus.schxslt.testsuite.impl;
+package name.dmaus.schxslt.testsuite;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,7 +46,7 @@ class CommandlineTransformerTest
         Path stylesheet = Paths.get("src/test/resources/simple.xsl");
         Path document = Paths.get("src/test/resources/simple.xsl");
 
-        CommandlineBuilder builder = new CommandlineBuilder();
+        CommandlineBuilder builder = new XsltprocCommandlineBuilder();
         CommandlineTransformer transformer = new CommandlineTransformer(stylesheet, builder);
         transformer.setParameter("phase", "phase");
         Path target = transformer.transform(document);
