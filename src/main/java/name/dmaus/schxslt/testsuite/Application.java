@@ -31,7 +31,7 @@ import java.nio.file.Paths;
 
 import java.util.List;
 
-class Application
+public class Application
 {
     public static void main (final String[] args)
     {
@@ -46,7 +46,7 @@ class Application
         List<ValidationResult> results = driver.run(testsuite);
         boolean success = true;
         for (ValidationResult result : results) {
-            if (result.getStatus() == ValidationStatus.FAILURE) {
+            if (result.getStatus() == ValidationStatus.FAILURE && !result.getTestcase().isOptional()) {
                 success = false;
             }
             System.out.println(result.getStatus() + " " + result.getTestcase().getLabel());
