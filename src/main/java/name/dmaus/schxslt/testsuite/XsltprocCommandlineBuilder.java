@@ -29,6 +29,9 @@ import java.util.ArrayList;
 
 class XsltprocCommandlineBuilder extends CommandlineBuilder
 {
+    XsltprocCommandlineBuilder ()
+    {}
+
     String [] build ()
     {
         ArrayList<String> commands = new ArrayList<String>();

@@ -37,9 +37,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
     
-public class CommandlineValidation implements Validation
+public final class CommandlineValidation implements Validation
 {
     static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
 
@@ -63,19 +62,19 @@ public class CommandlineValidation implements Validation
         }
     }
 
-    public void setSchema (final Path schema)
+    public void setSchema (final Path path)
     {
-        this.schema = schema;
+        schema = path;
     }
 
-    public void setDocument (final Path document)
+    public void setDocument (final Path path)
     {
-        this.document = document;
+        document = path;
     }
 
-    public void setPhase (final String phase)
+    public void setPhase (final String string)
     {
-        this.phase = phase;
+        phase = string;
     }
 
     public Set<String> getFeatures ()

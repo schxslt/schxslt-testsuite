@@ -27,23 +27,36 @@ package name.dmaus.schxslt.testsuite;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.util.List;
 
-public class Application
+public final class Application
 {
+    final ValidationFactory validationFactory;
+
+    public Application (final String configfile, final String implementation)
+    {
+        ApplicationContext ctx = new FileSystemXmlApplicationContext(configfile);
+        validationFactory = (ValidationFactory)ctx.getBean(implementation);
+    }
+
+    public List<ValidationResult> run (final Path testsuite)
+    {
+        Testsuite ts = Testsuite.newInstance(testsuite);
+        Driver driver = new Driver(validationFactory);
+        return driver.run(ts);
+    }
+
     public static void main (final String[] args)
     {
         Configuration config = new Configuration();
         config.parse(args);
 
-        ApplicationContext ctx = new FileSystemXmlApplicationContext(config.getConfigfile());
-        ValidationFactory validationFactory = (ValidationFactory)ctx.getBean(config.getValidationFactoryName());
-        Driver driver = new Driver(validationFactory);
-        Testsuite testsuite = Testsuite.newInstance(Paths.get(config.getTestsuite()));
+        Application app = new Application(config.getConfigfile(), config.getValidationFactoryName());
 
-        List<ValidationResult> results = driver.run(testsuite);
+        List<ValidationResult> results = app.run(Paths.get(config.getTestsuite()));
         boolean success = true;
         for (ValidationResult result : results) {
             if (result.getStatus() == ValidationStatus.FAILURE && !result.getTestcase().isOptional()) {

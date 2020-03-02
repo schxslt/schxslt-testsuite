@@ -47,7 +47,7 @@ import javax.xml.transform.dom.DOMSource;
 
 import javax.xml.transform.stream.StreamSource;
 
-public class JavaValidation implements Validation
+public final class JavaValidation implements Validation
 {
     static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
 
@@ -69,19 +69,19 @@ public class JavaValidation implements Validation
         }
     }
 
-    public void setSchema (final Path schema)
+    public void setSchema (final Path path)
     {
-        this.schema = schema;
+        schema = path;
     }
 
-    public void setDocument (final Path document)
+    public void setDocument (final Path path)
     {
-        this.document = document;
+        document = path;
     }
 
-    public void setPhase (final String phase)
+    public void setPhase (final String string)
     {
-        this.phase = phase;
+        phase = string;
     }
 
     public Set<String> getFeatures ()

@@ -42,6 +42,7 @@ class TestcaseSpec
     static final String NAME_PRIMARY = "primary";
     static final String NAME_SCHEMAS = "schemas";
     static final String NAME_SCHEMA = "schema";
+    static final String NAME_EXPECT = "expect";
 
     final Document document;
 
@@ -52,7 +53,7 @@ class TestcaseSpec
 
     boolean isExpectValid ()
     {
-        String value = document.getDocumentElement().getAttribute("expect");
+        String value = document.getDocumentElement().getAttribute(NAME_EXPECT);
         if ("valid".equals(value)) {
             return true;
         }
@@ -61,7 +62,7 @@ class TestcaseSpec
 
     boolean isExpectError ()
     {
-        String value = document.getDocumentElement().getAttribute("expect");
+        String value = document.getDocumentElement().getAttribute(NAME_EXPECT);
         return "error".equals(value);
     }
 
@@ -119,7 +120,7 @@ class TestcaseSpec
     {
         List<Element> expect = new ArrayList<Element>();
 
-        NodeList nodes = document.getElementsByTagNameNS(NS, "expect");
+        NodeList nodes = document.getElementsByTagNameNS(NS, NAME_EXPECT);
         for (int i = 0; i < nodes.getLength(); i++) {
             expect.add((Element)nodes.item(i));
         }

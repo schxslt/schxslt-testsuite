@@ -33,7 +33,7 @@ class CommandlineValidationFactory implements ValidationFactory
     final String label;
     final String queryBinding;
 
-    public CommandlineValidationFactory (final String label, final String queryBinding, final CommandlineBuilder commandlineBuilder, final String[] features, final String[] compilerSteps)
+    CommandlineValidationFactory (final String label, final String queryBinding, final CommandlineBuilder commandlineBuilder, final String[] features, final String[] compilerSteps)
     {
         this.label = label;
         this.queryBinding = queryBinding;

@@ -27,7 +27,6 @@ package name.dmaus.schxslt.testsuite;
 import java.nio.file.Path;
 
 import java.util.Map;
-import java.util.ArrayList;
 
 abstract class CommandlineBuilder
 {
@@ -36,27 +35,27 @@ abstract class CommandlineBuilder
     Path stylesheet;
     Map<String, String> parameters;
 
-    CommandlineBuilder setDocument (final Path document)
+    CommandlineBuilder setDocument (final Path path)
     {
-        this.document = document;
+        document = path;
         return this;
     }
 
-    CommandlineBuilder setStylesheet (final Path stylesheet)
+    CommandlineBuilder setStylesheet (final Path path)
     {
-        this.stylesheet = stylesheet;
+        stylesheet = path;
         return this;
     }
 
-    CommandlineBuilder setTarget (final Path target)
+    CommandlineBuilder setTarget (final Path path)
     {
-        this.target = target;
+        target = path;
         return this;
     }
 
-    CommandlineBuilder setParameters (final Map<String, String> parameters)
+    CommandlineBuilder setParameters (final Map<String, String> map)
     {
-        this.parameters = parameters;
+        parameters = map;
         return this;
     }
 

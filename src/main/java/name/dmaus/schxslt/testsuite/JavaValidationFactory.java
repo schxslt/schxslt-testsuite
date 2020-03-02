@@ -26,7 +26,7 @@ package name.dmaus.schxslt.testsuite;
 
 import javax.xml.transform.TransformerFactory;
 
-public class JavaValidationFactory implements ValidationFactory
+public final class JavaValidationFactory implements ValidationFactory
 {
     final String[] features;
     final String[] compilerSteps;
