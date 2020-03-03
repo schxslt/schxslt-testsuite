@@ -24,16 +24,18 @@
 
 package name.dmaus.schxslt.testsuite;
 
+import java.util.List;
+
 class CommandlineValidationFactory implements ValidationFactory
 {
     final String[] features;
-    final String[] compilerSteps;
+    final List<String> compilerSteps;
     final CommandlineBuilder commandlineBuilder;
 
     final String label;
     final String queryBinding;
 
-    CommandlineValidationFactory (final String label, final String queryBinding, final CommandlineBuilder commandlineBuilder, final String[] features, final String[] compilerSteps)
+    CommandlineValidationFactory (final String label, final String queryBinding, final CommandlineBuilder commandlineBuilder, final String[] features, final List<String> compilerSteps)
     {
         this.label = label;
         this.queryBinding = queryBinding;

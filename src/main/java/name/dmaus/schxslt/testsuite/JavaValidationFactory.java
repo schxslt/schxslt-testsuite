@@ -24,18 +24,20 @@
 
 package name.dmaus.schxslt.testsuite;
 
+import java.util.List;
+
 import javax.xml.transform.TransformerFactory;
 
 public final class JavaValidationFactory implements ValidationFactory
 {
     final String[] features;
-    final String[] compilerSteps;
+    final List<String> compilerSteps;
     final TransformerFactory transformerFactory;
 
     final String label;
     final String queryBinding;
 
-    public JavaValidationFactory (final String label, final String queryBinding, final TransformerFactory transformerFactory, final String[] features, final String[] compilerSteps)
+    public JavaValidationFactory (final String label, final String queryBinding, final TransformerFactory transformerFactory, final String[] features, final List<String> compilerSteps)
     {
         this.label = label;
         this.queryBinding = queryBinding;

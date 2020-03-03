@@ -31,6 +31,7 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 
 import java.util.Set;
+import java.util.List;
 import java.util.HashSet;
 
 import org.w3c.dom.NodeList;
@@ -42,7 +43,7 @@ public final class CommandlineValidation implements Validation
 {
     static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
 
-    final String[] compilerSteps;
+    final List<String> compilerSteps;
     final Set<String> features = new HashSet<String>();
     final CommandlineBuilder commandlineBuilder;
     final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -52,7 +53,7 @@ public final class CommandlineValidation implements Validation
     String phase;
     Document report;
 
-    public CommandlineValidation (final CommandlineBuilder commandlineBuilder, final String[] features, final String[] compilerSteps)
+    public CommandlineValidation (final CommandlineBuilder commandlineBuilder, final String[] features, final List<String> compilerSteps)
     {
         this.documentBuilderFactory.setNamespaceAware(true);
         this.commandlineBuilder = commandlineBuilder;
@@ -114,8 +115,8 @@ public final class CommandlineValidation implements Validation
     Path compileSchematron () throws IOException, InterruptedException
     {
         Path source = schema;
-        for (int i = 0; i < compilerSteps.length; i++) {
-            CommandlineTransformer transformer = new CommandlineTransformer(Paths.get(compilerSteps[i]), commandlineBuilder);
+        for (String step : compilerSteps) {
+            CommandlineTransformer transformer = new CommandlineTransformer(Paths.get(step), commandlineBuilder);
             source = transformer.transform(source);
         }
         return source;

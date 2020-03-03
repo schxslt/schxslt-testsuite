@@ -31,6 +31,7 @@ import java.nio.file.Paths;
 import java.nio.file.Path;
 
 import java.util.Set;
+import java.util.List;
 import java.util.HashSet;
 
 import org.w3c.dom.NodeList;
@@ -51,7 +52,7 @@ public final class JavaValidation implements Validation
 {
     static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
 
-    final String[] compilerSteps;
+    final List<String> compilerSteps;
     final TransformerFactory transformerFactory;
     final Set<String> features = new HashSet<String>();
 
@@ -60,7 +61,7 @@ public final class JavaValidation implements Validation
     String phase;
     Document report;
 
-    public JavaValidation (final TransformerFactory transformerFactory, final String[] features, final String[] compilerSteps)
+    public JavaValidation (final TransformerFactory transformerFactory, final String[] features, final List<String> compilerSteps)
     {
         this.transformerFactory = transformerFactory;
         this.compilerSteps = compilerSteps;
@@ -132,8 +133,8 @@ public final class JavaValidation implements Validation
     Transformer compileSchematron () throws IOException, TransformerException
     {
         Source source = new StreamSource(Files.newInputStream(schema), schema.toString());
-        for (int i = 0; i < compilerSteps.length; i++) {
-            final Path stylesheet = Paths.get(compilerSteps[i]);
+        for (String step : compilerSteps) {
+            final Path stylesheet = Paths.get(step);
             final Transformer transformer = transformerFactory.newTransformer(new StreamSource(Files.newInputStream(stylesheet), stylesheet.toString()));
             final DOMResult result = new DOMResult();
             transformer.transform(source, result);
