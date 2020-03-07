@@ -41,7 +41,7 @@ class Configuration
     {
         options.addRequiredOption("b", "bean", true, "Name of ValidationFactory bean");
         options.addRequiredOption("c", "config", true, "Spring beans configuration file");
-        options.addRequiredOption("t", "testsuite", true, "Testsuite");
+        options.addRequiredOption("t", "testcases", true, "Path to directory with testcases");
     }
 
     void parse (final String[] args)
