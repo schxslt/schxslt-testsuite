@@ -44,9 +44,8 @@ public final class Application
 
     public List<ValidationResult> run (final Path testsuite)
     {
-        Testsuite ts = Testsuite.newInstance(testsuite);
         Driver driver = new Driver(validationFactory);
-        return driver.run(ts);
+        return driver.run(testsuite);
     }
 
     public static void main (final String[] args)

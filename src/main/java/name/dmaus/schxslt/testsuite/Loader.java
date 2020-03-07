@@ -54,18 +54,12 @@ class Loader
             public void warning (final SAXParseException e) { throw new RuntimeException(e); }
         };
 
-    final DocumentBuilderFactory testsuiteDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
     final DocumentBuilderFactory testcaseDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 
     Loader ()
     {
         try {
             SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-
-            Schema testsuiteSchema = schemaFactory.newSchema(new StreamSource(getClass().getResourceAsStream("/testsuite.xsd")));
-            testsuiteDocumentBuilderFactory.setXIncludeAware(true);
-            testsuiteDocumentBuilderFactory.setNamespaceAware(true);
-            testsuiteDocumentBuilderFactory.setSchema(testsuiteSchema);
 
             Schema testcaseSchema = schemaFactory.newSchema(new StreamSource(getClass().getResourceAsStream("/testcase.xsd")));
             testcaseDocumentBuilderFactory.setXIncludeAware(true);
@@ -82,13 +76,6 @@ class Loader
         Document document = loadDocument(testcaseDocumentBuilderFactory, input);
         TestcaseSpec spec = new TestcaseSpec(document);
         return new Testcase(spec);
-    }
-
-    Testsuite loadTestsuite (final Path input)
-    {
-        Document document = loadDocument(testsuiteDocumentBuilderFactory, input);
-        TestsuiteSpec spec = new TestsuiteSpec(document);
-        return new Testsuite(spec);
     }
 
     Document loadDocument (final DocumentBuilderFactory factory, final Path input)

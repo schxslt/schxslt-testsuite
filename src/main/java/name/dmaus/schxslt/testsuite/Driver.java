@@ -33,9 +33,15 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 
+import java.nio.file.Path;
+import java.nio.file.Files;
+
+import java.io.IOException;
+
 public final class Driver
 {
     final XMLSerializer serializer = new XMLSerializer();
+    final Loader loader = new Loader();
 
     ValidationFactory validationFactory;
 
@@ -44,15 +50,20 @@ public final class Driver
         this.validationFactory = validationFactory;
     }
 
-    public List<ValidationResult> run (final Testsuite testsuite)
+    public List<ValidationResult> run (final Path directory)
     {
         List<ValidationResult> results = new ArrayList<ValidationResult>();
+        TestcaseCollector testcases = new TestcaseCollector();
+        try {
+            Files.walkFileTree(directory, testcases);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        List<Testcase> testcases = testsuite.getTestcases();
-        for (Testcase testcase : testcases) {
+        for (Path file : testcases.files) {
+            Testcase testcase = loader.loadTestcase(file);
             testcase.populate(validationFactory.getQueryBinding());
-            ValidationResult validationResult = runTestcase(testcase);
-            results.add(validationResult);
+            results.add(runTestcase(testcase));
         }
 
         return results;
