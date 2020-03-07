@@ -48,10 +48,10 @@ public final class Driver
     {
         List<ValidationResult> results = new ArrayList<ValidationResult>();
 
-        Testcase[] testcases = testsuite.getTestcases();
-        for (int i = 0; i < testcases.length; i++) {
-            testcases[i].populate(validationFactory.getQueryBinding());
-            ValidationResult validationResult = runTestcase(testcases[i]);
+        List<Testcase> testcases = testsuite.getTestcases();
+        for (Testcase testcase : testcases) {
+            testcase.populate(validationFactory.getQueryBinding());
+            ValidationResult validationResult = runTestcase(testcase);
             results.add(validationResult);
         }
 

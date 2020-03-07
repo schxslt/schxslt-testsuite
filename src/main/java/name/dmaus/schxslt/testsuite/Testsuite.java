@@ -50,7 +50,7 @@ public final class Testsuite
         return spec.getLabel();
     }
 
-    public Testcase[] getTestcases ()
+    public List<Testcase> getTestcases ()
     {
         if (testcases.isEmpty()) {
             URI baseURI;
@@ -69,7 +69,7 @@ public final class Testsuite
             }
         }
 
-        return testcases.toArray(new Testcase[testcases.size()]);
+        return testcases;
     }
 
     public static Testsuite newInstance (final Path location)

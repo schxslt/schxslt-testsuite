@@ -30,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.file.Paths;
 
+import java.util.List;
+
 class TestsuiteTest
 {
     final Loader loader = new Loader();;
@@ -39,7 +41,7 @@ class TestsuiteTest
     {
         Testsuite testsuite = loader.loadTestsuite(Paths.get("src/test/resources/testsuite.xml"));
         assertNotNull(testsuite);
-        Testcase[] testcases = testsuite.getTestcases();
-        assertEquals(1, testcases.length);
+        List<Testcase> testcases = testsuite.getTestcases();
+        assertEquals(1, testcases.size());
     }
 }
