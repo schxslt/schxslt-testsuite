@@ -36,7 +36,7 @@ public final class Application
 {
     final ValidationFactory validationFactory;
 
-    public Application (final String configfile, final String implementation)
+    public Application (final File configfile, final String implementation)
     {
         ApplicationContext ctx = new FileSystemXmlApplicationContext(configfile);
         validationFactory = (ValidationFactory)ctx.getBean(implementation);
