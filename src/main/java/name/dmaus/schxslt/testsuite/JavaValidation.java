@@ -137,6 +137,9 @@ public final class JavaValidation implements Validation
             final Path stylesheet = Paths.get(step);
             final Transformer transformer = transformerFactory.newTransformer(new StreamSource(Files.newInputStream(stylesheet), stylesheet.toString()));
             final DOMResult result = new DOMResult();
+            if (phase != null) {
+                transformer.setParameter("phase", phase);
+            }
             transformer.transform(source, result);
             source = new DOMSource(result.getNode(), result.getSystemId());
         }

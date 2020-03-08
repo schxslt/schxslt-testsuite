@@ -117,6 +117,9 @@ public final class CommandlineValidation implements Validation
         Path source = schema;
         for (String step : compilerSteps) {
             CommandlineTransformer transformer = new CommandlineTransformer(Paths.get(step), commandlineBuilder);
+            if (phase != null) {
+                transformer.setParameter("phase", phase);
+            }
             source = transformer.transform(source);
         }
         return source;
