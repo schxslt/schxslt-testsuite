@@ -31,15 +31,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.util.List;
+import java.util.Arrays;
 
 public final class Application
 {
     final ValidationFactory validationFactory;
+    final List<String> skipTestcaseIds;
 
-    public Application (final String configfile, final String implementation)
+    public Application (final String configfile, final String implementation, final String[] skipTestcaseIds)
     {
         ApplicationContext ctx = new FileSystemXmlApplicationContext(configfile);
         validationFactory = (ValidationFactory)ctx.getBean(implementation);
+        this.skipTestcaseIds = Arrays.asList(skipTestcaseIds);
     }
 
     public List<ValidationResult> run (final Path testsuite)
@@ -53,7 +56,7 @@ public final class Application
         Configuration config = new Configuration();
         config.parse(args);
 
-        Application app = new Application(config.getConfigfile(), config.getValidationFactoryName());
+        Application app = new Application(config.getConfigfile(), config.getValidationFactoryName(), config.getSkipTestcaseIds());
 
         List<ValidationResult> results = app.run(Paths.get(config.getTestsuite()));
         boolean success = true;

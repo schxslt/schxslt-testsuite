@@ -42,6 +42,7 @@ class Configuration
         options.addRequiredOption("b", "bean", true, "Name of ValidationFactory bean");
         options.addRequiredOption("c", "config", true, "Spring beans configuration file");
         options.addRequiredOption("t", "testcases", true, "Path to directory with testcases");
+        options.addOption("s", "skip", true, "Skip testcases with this id");
     }
 
     void parse (final String[] args)
@@ -68,6 +69,11 @@ class Configuration
     String getConfigfile ()
     {
         return arguments.getOptionValue("c");
+    }
+
+    String[] getSkipTestcaseIds ()
+    {
+        return arguments.getOptionValues("s");
     }
 
     void printHelp ()
