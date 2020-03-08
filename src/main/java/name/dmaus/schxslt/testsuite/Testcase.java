@@ -46,7 +46,7 @@ import javax.xml.xpath.XPath;
 
 import javax.xml.XMLConstants;
 
-class Testcase
+public final class Testcase
 {
     final XMLSerializer serializer = new XMLSerializer();
     final TestcaseSpec spec;
@@ -62,7 +62,7 @@ class Testcase
         this.spec = spec;
     }
 
-    String getId ()
+    public String getId ()
     {
         return spec.getId();
     }
@@ -87,7 +87,7 @@ class Testcase
         return spec.getPhase();
     }
 
-    String getLabel ()
+    public String getLabel ()
     {
         return spec.getLabel();
     }
@@ -107,7 +107,7 @@ class Testcase
         return spec.isExpectError();
     }
 
-    boolean isOptional ()
+    public boolean isOptional ()
     {
         return spec.isOptional();
     }
