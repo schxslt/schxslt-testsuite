@@ -50,27 +50,10 @@ public final class Driver
         this.validationFactory = validationFactory;
     }
 
-    public List<ValidationResult> run (final Path directory)
+    ValidationResult run (final Testcase testcase)
     {
-        List<ValidationResult> results = new ArrayList<ValidationResult>();
-        TestcaseCollector testcases = new TestcaseCollector();
-        try {
-            Files.walkFileTree(directory, testcases);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        testcase.populate(validationFactory.getQueryBinding());
 
-        for (Path file : testcases.files) {
-            Testcase testcase = loader.loadTestcase(file);
-            testcase.populate(validationFactory.getQueryBinding());
-            results.add(runTestcase(testcase));
-        }
-
-        return results;
-    }
-
-    ValidationResult runTestcase (final Testcase testcase)
-    {
         Validation validation = validationFactory.newInstance();
 
         validation.setSchema(testcase.getSchema());

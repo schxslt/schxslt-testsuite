@@ -31,6 +31,11 @@ public final class ValidationResult
     final String errorMessage;
     final Object report;
 
+    ValidationResult (final Testcase testcase, final ValidationStatus status)
+    {
+        this(testcase, status, null, null);
+    }
+
     ValidationResult (final Testcase testcase, final ValidationStatus status, final Object report, final String errorMessage)
     {
         this.testcase = testcase;

@@ -29,12 +29,18 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.Files;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
+
+import java.io.IOException;
 
 public final class Application
 {
+    final Loader loader = new Loader();
+
     final ValidationFactory validationFactory;
     final List<String> skipTestcaseIds;
 
@@ -42,13 +48,27 @@ public final class Application
     {
         ApplicationContext ctx = new FileSystemXmlApplicationContext(configfile);
         validationFactory = (ValidationFactory)ctx.getBean(implementation);
-        this.skipTestcaseIds = Arrays.asList(skipTestcaseIds);
+        if (skipTestcaseIds == null) {
+            this.skipTestcaseIds = new ArrayList<String>();
+        } else {
+            this.skipTestcaseIds = Arrays.asList(skipTestcaseIds);
+        }
     }
 
     public List<ValidationResult> run (final Path testsuite)
     {
         Driver driver = new Driver(validationFactory);
-        return driver.run(testsuite);
+
+        List<ValidationResult> results = new ArrayList<ValidationResult>();
+        for (Path file : findTestcases(testsuite)) {
+            Testcase testcase = loader.loadTestcase(file);
+            if (skipTestcaseIds != null && skipTestcaseIds.contains(testcase.getId())) {
+                results.add(new ValidationResult(testcase, ValidationStatus.SKIPPED));
+            } else {
+                results.add(driver.run(testcase));
+            }
+        }
+        return results;
     }
 
     public static void main (final String[] args)
@@ -64,12 +84,23 @@ public final class Application
             if (result.getStatus() == ValidationStatus.FAILURE && !result.getTestcase().isOptional()) {
                 success = false;
             }
-            System.out.println(result.getStatus() + " " + result.getTestcase().getLabel());
+            System.out.println(result.getStatus() + " [" + result.getTestcase().getId() + "] " + result.getTestcase().getLabel());
         }
         if (success) {
             System.exit(0);
         } else {
             System.exit(1);
         }
+    }
+
+    List<Path> findTestcases (final Path directory)
+    {
+        TestcaseCollector testcases = new TestcaseCollector();
+        try {
+            Files.walkFileTree(directory, testcases);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return testcases.files;
     }
 }
