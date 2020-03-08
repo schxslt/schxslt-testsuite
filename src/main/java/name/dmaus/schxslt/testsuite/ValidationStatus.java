@@ -24,7 +24,7 @@
 
 package name.dmaus.schxslt.testsuite;
 
-enum ValidationStatus
+public enum ValidationStatus
 {
     FAILURE,
     SUCCESS,

@@ -44,22 +44,22 @@ public final class ValidationResult
         this.errorMessage = errorMessage;
     }
 
-    Testcase getTestcase ()
+    public Testcase getTestcase ()
     {
         return testcase;
     }
 
-    ValidationStatus getStatus ()
+    public ValidationStatus getStatus ()
     {
         return status;
     }
 
-    String getErrorMessage ()
+    public String getErrorMessage ()
     {
         return errorMessage;
     }
 
-    Object getReport ()
+    public Object getReport ()
     {
         return report;
     }
