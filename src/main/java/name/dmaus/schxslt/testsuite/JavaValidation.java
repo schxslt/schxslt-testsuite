@@ -40,6 +40,7 @@ import org.w3c.dom.Document;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.ErrorListener;
 
 import javax.xml.transform.Source;
 
@@ -55,6 +56,12 @@ public final class JavaValidation implements Validation
     final List<String> compilerSteps;
     final TransformerFactory transformerFactory;
     final Set<String> features = new HashSet<String>();
+
+    final ErrorListener errorListener = new ErrorListener () {
+            public void error (final TransformerException e) {};
+            public void warning (final TransformerException e) {};
+            public void fatalError (final TransformerException e) throws TransformerException { throw new TransformerException(e); };
+        };
 
     Path schema;
     Path document;
@@ -137,6 +144,7 @@ public final class JavaValidation implements Validation
             final Path stylesheet = Paths.get(step);
             final Transformer transformer = transformerFactory.newTransformer(new StreamSource(Files.newInputStream(stylesheet), stylesheet.toString()));
             final DOMResult result = new DOMResult();
+            transformer.setErrorListener(errorListener);
             if (phase != null) {
                 transformer.setParameter("phase", phase);
             }
