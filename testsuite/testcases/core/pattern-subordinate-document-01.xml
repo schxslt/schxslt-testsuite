@@ -3,7 +3,7 @@
   <reference>ISO Schematron 2016: Section 5.4.9 clause 2</reference>
   <documents>
     <primary filename="document.xml">
-      <element xmlns=""/>
+      <element secondary="document-02.xml" xmlns=""/>
     </primary>
     <secondary filename="document-02.xml">
       <root xmlns=""/>
@@ -11,7 +11,7 @@
   </documents>
   <schemas>
     <sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-      <sch:pattern documents="'document-02.xml'">
+      <sch:pattern documents="/element/@secondary">
         <sch:rule context="/">
           <sch:report test="root"/>
         </sch:rule>
