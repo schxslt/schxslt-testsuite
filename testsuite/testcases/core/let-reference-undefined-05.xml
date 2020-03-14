@@ -10,7 +10,7 @@
     <sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
       <sch:pattern>
         <sch:rule context="*">
-          <sch:assert test="true()">
+          <sch:assert test="false()">
             <sch:value-of select="$variable"/>
           </sch:assert>
         </sch:rule>
