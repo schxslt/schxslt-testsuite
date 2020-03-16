@@ -52,21 +52,20 @@ public final class Driver
 
     ValidationResult run (final Testcase testcase)
     {
-        testcase.populate(validationFactory.getQueryBinding());
-
-        Validation validation = validationFactory.newInstance();
-
-        validation.setSchema(testcase.getSchema());
-        validation.setDocument(testcase.getDocument());
-        validation.setPhase(testcase.getPhase());
-
         ValidationStatus status = ValidationStatus.FAILURE;
         String errorMessage = null;
         Document report = null;
 
-        if (isFeatureMatch(validation, testcase)) {
+        try {
+            testcase.populate(validationFactory.getQueryBinding());
 
-            try {
+            Validation validation = validationFactory.newInstance();
+
+            validation.setSchema(testcase.getSchema());
+            validation.setDocument(testcase.getDocument());
+            validation.setPhase(testcase.getPhase());
+
+            if (isFeatureMatch(validation, testcase)) {
                 boolean success;
 
                 validation.execute();
@@ -76,12 +75,14 @@ public final class Driver
                     success = false;
                 }
 
+                List<Expectation> expectations = testcase.getExpectations();
                 report = (Document)validation.getReport();
-                if (report != null) {
+                if (!expectations.isEmpty() && report == null) {
+                    throw new ValidationException("Cannot check expectations because there is no report");
+                } else {
                     serializer.serialize(report, testcase.getReport());
-                    Expectation[] expectations = testcase.getExpectations();
-                    for (int i = 0; i < expectations.length; i++) {
-                        success = success && expectations[i].isSatisfied(report);
+                    for (Expectation expectation : expectations) {
+                        success = success && expectation.isSatisfied(report);
                     }
                 }
                 if (success) {
@@ -89,17 +90,17 @@ public final class Driver
                 } else {
                     status = ValidationStatus.FAILURE;
                 }
-            } catch (ValidationException e) {
-                if (testcase.isExpectError()) {
-                    status = ValidationStatus.SUCCESS;
-                }
-                errorMessage = e.getMessage();
-            } catch (XPathExpressionException e) {
-                errorMessage = e.getMessage();
+            } else {
+                status = ValidationStatus.SKIPPED;
+                errorMessage = String.format("Required features not supported: %s", testcase.getFeatures());
             }
-        } else {
-            status = ValidationStatus.SKIPPED;
-            errorMessage = String.format("Required features not supported: %s", testcase.getFeatures());
+        } catch (ValidationException e) {
+            if (testcase.isExpectError()) {
+                status = ValidationStatus.SUCCESS;
+            }
+            errorMessage = e.getMessage();
+        } catch (XPathExpressionException e) {
+            errorMessage = e.getMessage();
         }
 
         return new ValidationResult(testcase, status, report, errorMessage);
