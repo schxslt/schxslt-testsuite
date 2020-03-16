@@ -143,6 +143,10 @@ class TestcaseSpec
             }
         }
 
+        if (unspecificSchema == null) {
+            throw new ValidationException("Unable to obtain schema for query binding " + queryBinding);
+        }
+
         unspecificSchema = (Element)unspecificSchema.cloneNode(true);
         unspecificSchema.setAttribute(NAME_QUERYBINDING, queryBinding);
         return unspecificSchema;
