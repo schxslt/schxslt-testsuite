@@ -35,7 +35,7 @@ class TestcaseTest
     Loader loader = new Loader();;
 
     @Test
-    public void testPopulate ()
+    public void testPopulate () throws ValidationException
     {
         Testcase testcase = loader.loadTestcase(Paths.get("src/test/resources/testcase.xml"));
 

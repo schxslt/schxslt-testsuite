@@ -124,7 +124,7 @@ public final class Testcase
         return features;
     }
 
-    Expectation[] getExpectations ()
+    List<Expectation> getExpectations ()
     {
         List<Expectation> expect = new ArrayList<Expectation>();
 
@@ -141,10 +141,10 @@ public final class Testcase
             }
         }
 
-        return expect.toArray(new Expectation[expect.size()]);
+        return expect;
     }
 
-    public void populate (final String queryBindingStr)
+    public void populate (final String queryBindingStr) throws ValidationException
     {
         try {
 
@@ -213,11 +213,13 @@ public final class Testcase
     void collectNamespaceDecls (final Namespaces nsContext, final Node node)
     {
         NamedNodeMap attrs = node.getAttributes();
-        for (int i = 0; i < attrs.getLength(); i++) {
-            if (XMLConstants.XMLNS_ATTRIBUTE.equals(attrs.item(i).getNamespaceURI())) {
-                String prefix = attrs.item(i).getLocalName();
-                if (!nsContext.isDeclaredPrefix(prefix)) {
-                    nsContext.addNamespaceBinding(prefix, attrs.item(i).getTextContent());
+        if (attrs != null) {
+            for (int i = 0; i < attrs.getLength(); i++) {
+                if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attrs.item(i).getNamespaceURI())) {
+                    String prefix = attrs.item(i).getLocalName();
+                    if (!nsContext.isDeclaredPrefix(prefix)) {
+                        nsContext.addNamespaceBinding(prefix, attrs.item(i).getTextContent());
+                    }
                 }
             }
         }
