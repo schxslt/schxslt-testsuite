@@ -19,7 +19,7 @@
       </sch:diagnostics>
     </sch:schema>
   </schemas>
-  <expectations>
+  <expectations xmlns:svrl="http://purl.oclc.org/dsdl/svrl">
     <expectation test="exists(//svrl:successful-report/svrl:diagnostic-reference/svrl:text[@xml:lang = 'de'])"/>
   </expectations>
 </testcase>
