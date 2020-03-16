@@ -42,6 +42,7 @@ class TestcaseSpec
     static final String NAME_PRIMARY = "primary";
     static final String NAME_SCHEMAS = "schemas";
     static final String NAME_SCHEMA = "schema";
+    static final String NAME_EXPECTATION = "expectation";
     static final String NAME_EXPECT = "expect";
 
     final Document document;
@@ -120,7 +121,7 @@ class TestcaseSpec
     {
         List<Element> expect = new ArrayList<Element>();
 
-        NodeList nodes = document.getElementsByTagNameNS(NS, NAME_EXPECT);
+        NodeList nodes = document.getElementsByTagNameNS(NS, NAME_EXPECTATION);
         for (int i = 0; i < nodes.getLength(); i++) {
             expect.add((Element)nodes.item(i));
         }
@@ -128,7 +129,7 @@ class TestcaseSpec
         return expect.toArray(new Element[expect.size()]);
     }
 
-    Element getSchema (final String queryBinding)
+    Element getSchema (final String queryBinding) throws ValidationException
     {
         Element unspecificSchema = null;
         NodeList nodes = document.getElementsByTagNameNS(NS_SCHEMATRON, NAME_SCHEMA);
