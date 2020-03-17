@@ -1,0 +1,30 @@
+<testcase xmlns="tag:dmaus@dmaus.name,2019:Schematron:Testsuite" expect="valid" id="example">
+  <label>Example testcase</label>
+  <documents>
+    <primary filename="document.xml" id="primary">
+      <root xmlns=""/>
+    </primary>
+    <secondary filename="foo/bar.xml">
+      <foobar xmlns=""/>
+    </secondary>
+  </documents>
+  <schemas>
+    <sch:schema id="xslt2" xmlns:sch="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+      <sch:pattern>
+        <sch:rule context="*">
+          <sch:assert test="true()"/>
+        </sch:rule>
+      </sch:pattern>
+    </sch:schema>
+    <sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+      <sch:pattern>
+        <sch:rule context="*">
+          <sch:assert test="false()"/>
+        </sch:rule>
+      </sch:pattern>
+    </sch:schema>
+  </schemas>
+  <expectations>
+    <expectation test="true()"/>
+  </expectations>
+</testcase>
