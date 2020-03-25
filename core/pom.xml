@@ -42,7 +42,7 @@
 
   <properties>
     <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
-    <spring.version>5.2.4.RELEASE</spring.version>
+    <spring.version>5.2.5.RELEASE</spring.version>
   </properties>
 
   <dependencies>
