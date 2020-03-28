@@ -38,7 +38,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-    
+
 public final class CommandlineValidation implements Validation
 {
     static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
@@ -88,6 +88,11 @@ public final class CommandlineValidation implements Validation
         return report;
     }
 
+    public boolean isAvailable ()
+    {
+        return true;
+    }
+
     public boolean isValid ()
     {
         NodeList asserts = report.getElementsByTagNameNS(NSSVRL, "failed-assert");
@@ -106,7 +111,7 @@ public final class CommandlineValidation implements Validation
             Path compiledReport = transformer.transform(document);
 
             report = documentBuilderFactory.newDocumentBuilder().parse(Files.newInputStream(compiledReport));
-            
+
         } catch (Exception e) {
             throw new ValidationException(e);
         }
