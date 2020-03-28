@@ -30,19 +30,66 @@ import java.util.Set;
 
 import org.w3c.dom.Document;
 
+/**
+ * Public interface of a Validation implementation.
+ *
+ * @author David Maus &lt;dmaus@dmaus.name&gt;
+ */
 public interface Validation
-{    
+{
+    /**
+     * Set schema document.
+     *
+     * @param schema Schema document
+     */
     void setSchema (Path schema);
 
+    /**
+     * Set instance document.
+     *
+     * @param document Instance document
+     */
     void setDocument (Path document);
 
+    /**
+     * Set validation phase.
+     *
+     * @param phase Validation phase
+     */
     void setPhase (String phase);
 
+    /**
+     * Return supported features.
+     *
+     * @return Supported features
+     */
     Set<String> getFeatures ();
 
+    /**
+     * Return true if validation is available.
+     *
+     * @return True if validation is available, otherwise false
+     */
+    boolean isAvailable ();
+
+    /**
+     * Return true if the document is valid.
+     *
+     * @return True if the document is valid, otherwise false.
+     */
     boolean isValid ();
 
+    /**
+     * Return validation report, if any.
+     *
+     * @return Validation report or null if there is no report
+     */
     Document getReport ();
 
+    /**
+     * Execute the validation.
+     *
+     * @throws ValidationException Error while executing the validation
+     */
     void execute () throws ValidationException;
 }
