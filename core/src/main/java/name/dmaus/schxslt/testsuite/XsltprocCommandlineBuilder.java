@@ -38,9 +38,11 @@ class XsltprocCommandlineBuilder extends CommandlineBuilder
         commands.add("xsltproc");
         if (parameters != null) {
             for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                commands.add("-stringparam");
-                commands.add(entry.getKey());
-                commands.add(entry.getValue());
+                if (entry.getValue() != null && !entry.getValue().isEmpty()) {
+                    commands.add("-stringparam");
+                    commands.add(entry.getKey());
+                    commands.add(entry.getValue());
+                }
             }
         }
         commands.add("-o");

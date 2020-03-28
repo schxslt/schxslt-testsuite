@@ -150,7 +150,7 @@ public final class JavaValidation implements Validation
             final Transformer transformer = transformerFactory.newTransformer(new StreamSource(Files.newInputStream(stylesheet), stylesheet.toString()));
             final DOMResult result = new DOMResult();
             transformer.setErrorListener(errorListener);
-            if (phase != null) {
+            if (phase != null && !phase.isEmpty()) {
                 transformer.setParameter("phase", phase);
             }
             transformer.transform(source, result);
