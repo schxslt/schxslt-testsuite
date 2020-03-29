@@ -26,10 +26,15 @@ package name.dmaus.schxslt.testsuite.maven;
 
 import org.apache.maven.plugins.annotations.Parameter;
 
+import java.io.File;
+
 public class Processor
 {
     @Parameter(required = true)
     String id;
+
+    @Parameter(required = false)
+    File report;
 
     @Parameter(required = false)
     String[] skip;

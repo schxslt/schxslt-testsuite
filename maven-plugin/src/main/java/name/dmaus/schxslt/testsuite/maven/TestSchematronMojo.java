@@ -33,12 +33,21 @@ import org.apache.maven.plugins.annotations.Parameter;
 import name.dmaus.schxslt.testsuite.ValidationResult;
 import name.dmaus.schxslt.testsuite.ValidationStatus;
 import name.dmaus.schxslt.testsuite.Report;
+import name.dmaus.schxslt.testsuite.ReportSerializer;
 import name.dmaus.schxslt.testsuite.Application;
+import name.dmaus.schxslt.testsuite.XMLSerializer;
 
 import java.util.List;
 
 import java.io.File;
 import java.nio.file.Paths;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import java.nio.file.Paths;
+
 
 @Mojo(name = "test-schematron")
 public class TestSchematronMojo extends AbstractMojo
@@ -75,9 +84,28 @@ public class TestSchematronMojo extends AbstractMojo
             } else {
                 getLog().info(msg);
             }
+
+            if (processor.report != null) {
+                serializeReport(report, processor.report);
+            }
+
         }
         if (failMojoExecution) {
             throw new MojoFailureException("Some Schematron tests failed");
+        }
+    }
+
+    void serializeReport (final Report report, final File file) throws MojoExecutionException
+    {
+        try {
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            ReportSerializer reportSerializer = new ReportSerializer(builder);
+            XMLSerializer xmlSerializer = new XMLSerializer();
+
+            xmlSerializer.serialize(reportSerializer.serialize(report), Paths.get(file.toURI()));
+
+        } catch (ParserConfigurationException e) {
+            throw new MojoExecutionException("Cannot create DocumentBuilder instance", e);
         }
     }
 }
