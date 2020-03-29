@@ -32,6 +32,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import name.dmaus.schxslt.testsuite.ValidationResult;
 import name.dmaus.schxslt.testsuite.ValidationStatus;
+import name.dmaus.schxslt.testsuite.Report;
 import name.dmaus.schxslt.testsuite.Application;
 
 import java.util.List;
@@ -56,12 +57,13 @@ public class TestSchematronMojo extends AbstractMojo
         boolean failMojoExecution = false;
         for (Processor processor : processors) {
             Application app = new Application(configFile.toURI().toString(), processor.id, processor.skip);
-            List<ValidationResult> results = app.run(Paths.get(testDir.toURI()));
+            Report report = app.run(Paths.get(testDir.toURI()));
+
             int success = 0;
             int skipped = 0;
             int failure = 0;
 
-            for (ValidationResult result : results) {
+            for (ValidationResult result : report.getValidationResults()) {
                 final String msg = String.format("Status: %s Id: %s Label: %s", result.getStatus(), result.getTestcase().getId(), result.getTestcase().getLabel());
                 switch (result.getStatus()) {
                 case SUCCESS:

@@ -55,20 +55,20 @@ public final class Application
         }
     }
 
-    public List<ValidationResult> run (final Path testsuite)
+    public Report run (final Path testsuite)
     {
         Driver driver = new Driver(validationFactory);
+        Report report = new Report();
 
-        List<ValidationResult> results = new ArrayList<ValidationResult>();
         for (Path file : findTestcases(testsuite)) {
             Testcase testcase = loader.loadTestcase(file);
             if (skipTestcaseIds != null && skipTestcaseIds.contains(testcase.getId())) {
-                results.add(new ValidationResult(testcase, ValidationStatus.SKIPPED));
+                report.results.add(new ValidationResult(testcase, ValidationStatus.SKIPPED));
             } else {
-                results.add(driver.run(testcase));
+                report.results.add(driver.run(testcase));
             }
         }
-        return results;
+        return report;
     }
 
     public static void main (final String[] args)
@@ -78,9 +78,9 @@ public final class Application
 
         Application app = new Application(config.getConfigfile(), config.getValidationFactoryName(), config.getSkipTestcaseIds());
 
-        List<ValidationResult> results = app.run(Paths.get(config.getTestsuite()));
+        Report report = app.run(Paths.get(config.getTestsuite()));
         boolean success = true;
-        for (ValidationResult result : results) {
+        for (ValidationResult result : report.results) {
             if (result.getStatus() == ValidationStatus.FAILURE && !result.getTestcase().isOptional()) {
                 success = false;
             }
