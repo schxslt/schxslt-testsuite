@@ -34,8 +34,22 @@ public final class Report
     private final Date timestamp = new Date();
     private final List<ValidationResult> results = new ArrayList<ValidationResult>();
 
+    private int countSuccess = 0;
+    private int countFailure = 0;
+    private int countSkipped = 0;
+
     public void addValidationResult (final ValidationResult result)
     {
+        switch (result.getStatus()) {
+        case SUCCESS:
+            countSuccess++;
+            break;
+        case SKIPPED:
+            countSkipped++;
+            break;
+        default:
+            countFailure++;
+        }
         results.add(result);
     }
 
@@ -43,4 +57,30 @@ public final class Report
     {
         return results;
     }
+
+    public int countSkipped ()
+    {
+        return countSkipped;
+    }
+
+    public int countSuccess ()
+    {
+        return countSuccess;
+    }
+
+    public int countFailure ()
+    {
+        return countFailure;
+    }
+
+    public int countTotal ()
+    {
+        return results.size();
+    }
+
+    public Date getTimestamp ()
+    {
+        return timestamp;
+    }
+
 }
