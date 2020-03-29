@@ -63,9 +63,9 @@ public final class Application
         for (Path file : findTestcases(testsuite)) {
             Testcase testcase = loader.loadTestcase(file);
             if (skipTestcaseIds != null && skipTestcaseIds.contains(testcase.getId())) {
-                report.results.add(new ValidationResult(testcase, ValidationStatus.SKIPPED));
+                report.addValidationResult(new ValidationResult(testcase, ValidationStatus.SKIPPED));
             } else {
-                report.results.add(driver.run(testcase));
+                report.addValidationResult(driver.run(testcase));
             }
         }
         return report;
@@ -80,7 +80,7 @@ public final class Application
 
         Report report = app.run(Paths.get(config.getTestsuite()));
         boolean success = true;
-        for (ValidationResult result : report.results) {
+        for (ValidationResult result : report.getValidationResults()) {
             if (result.getStatus() == ValidationStatus.FAILURE && !result.getTestcase().isOptional()) {
                 success = false;
             }

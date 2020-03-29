@@ -31,8 +31,13 @@ import java.util.ArrayList;
 
 public final class Report
 {
-    final Date timestamp = new Date();
-    final List<ValidationResult> results = new ArrayList<ValidationResult>();
+    private final Date timestamp = new Date();
+    private final List<ValidationResult> results = new ArrayList<ValidationResult>();
+
+    public void addValidationResult (final ValidationResult result)
+    {
+        results.add(result);
+    }
 
     public List<ValidationResult> getValidationResults ()
     {
