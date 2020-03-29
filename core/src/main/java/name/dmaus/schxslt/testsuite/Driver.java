@@ -29,14 +29,8 @@ import java.util.Set;
 import javax.xml.xpath.XPathExpressionException;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import org.w3c.dom.Document;
-
-import java.nio.file.Path;
-import java.nio.file.Files;
-
-import java.io.IOException;
 
 public final class Driver
 {

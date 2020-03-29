@@ -58,9 +58,16 @@ public final class JavaValidation implements Validation
     final Set<String> features = new HashSet<String>();
 
     final ErrorListener errorListener = new ErrorListener () {
-            public void error (final TransformerException e) {};
-            public void warning (final TransformerException e) {};
-            public void fatalError (final TransformerException e) throws TransformerException { throw new TransformerException(e); };
+            public void error (final TransformerException e)
+            {}
+
+            public void warning (final TransformerException e)
+            {}
+
+            public void fatalError (final TransformerException e) throws TransformerException
+            {
+                throw new TransformerException(e);
+            }
         };
 
     Path schema;
