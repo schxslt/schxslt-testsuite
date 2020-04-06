@@ -6,11 +6,12 @@
   <parent>
     <groupId>name.dmaus.schxslt</groupId>
     <artifactId>testsuite-parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
   </parent>
 
   <groupId>name.dmaus.schxslt</groupId>
   <artifactId>testsuite-maven-plugin</artifactId>
+  <version>1.1</version>
   <packaging>maven-plugin</packaging>
 
   <name>SchXslt Testsuite Maven Plugin</name>
