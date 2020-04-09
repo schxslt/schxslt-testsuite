@@ -56,6 +56,7 @@ public final class Testcase
     String queryBinding;
 
     Path report;
+    Path tempDirectory;
 
     Testcase (final TestcaseSpec spec)
     {
@@ -148,19 +149,25 @@ public final class Testcase
     {
         try {
 
-            Path tempDirectory = Files.createTempDirectory("testsuite-ng.").toAbsolutePath();
+            tempDirectory = Files.createTempDirectory("testsuite-ng.").toAbsolutePath();
+            deleteTemporaryFile(tempDirectory);
 
             schema = Files.createTempFile(tempDirectory, "schema", ".sch");
+            deleteTemporaryFile(schema);
+
             report = Files.createTempFile(tempDirectory, "report", ".xml");
+            deleteTemporaryFile(report);
 
             serializer.serialize(spec.getSchema(queryBindingStr), schema);
 
             document = serialize(tempDirectory, spec.getPrimaryDocument());
+            deleteTemporaryFile(document);
 
             NodeList documents = spec.getSecondaryDocuments();
             for (int i = 0; i < documents.getLength(); i++) {
                 Element documentWrap = (Element)documents.item(i);
-                serialize(tempDirectory, documentWrap);
+                Path secondary = serialize(tempDirectory, documentWrap);
+                deleteTemporaryFile(secondary);
             }
 
             queryBinding = queryBindingStr;
@@ -208,6 +215,14 @@ public final class Testcase
             node = node.getParentNode();
         } while (node != null);
         return nsContext;
+    }
+
+    void deleteTemporaryFile (Path fileOrDirectory)
+    {
+        do {
+            DeleteTemporaryFiles.add(fileOrDirectory);
+            fileOrDirectory = fileOrDirectory.getParent();
+        } while (fileOrDirectory != null && !fileOrDirectory.equals(tempDirectory));
     }
 
     void collectNamespaceDecls (final Namespaces nsContext, final Node node)
