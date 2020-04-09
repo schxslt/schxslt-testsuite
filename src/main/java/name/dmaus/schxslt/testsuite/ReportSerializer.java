@@ -75,16 +75,22 @@ public final class ReportSerializer
             .appendChild(document.createTextNode(testcase.getLabel()));
 
         Element primary = document.createElementNS(NS, "document");
-        primary.setAttribute("href", testcase.getDocument().toUri().toString());
-        element.appendChild(primary);
+        if (testcase.getDocument() != null) {
+            primary.setAttribute("href", testcase.getDocument().toUri().toString());
+            element.appendChild(primary);
+        }
 
         Element schema = document.createElementNS(NS, "schema");
-        schema.setAttribute("href", testcase.getSchema().toUri().toString());
-        element.appendChild(schema);
+        if (testcase.getDocument() != null) {
+            schema.setAttribute("href", testcase.getSchema().toUri().toString());
+            element.appendChild(schema);
+        }
 
         Element report = document.createElementNS(NS, "report");
-        report.setAttribute("href", testcase.getReport().toUri().toString());
-        element.appendChild(report);
+        if (testcase.getReport() != null) {
+            report.setAttribute("href", testcase.getReport().toUri().toString());
+            element.appendChild(report);
+        }
 
         if (result.getErrorMessage() != null && !result.getErrorMessage().isEmpty()) {
             Element message = document.createElementNS(NS, "message");
