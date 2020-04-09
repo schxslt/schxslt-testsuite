@@ -55,7 +55,7 @@ class CommandlineTransformer
     Path transform (final Path document) throws IOException, InterruptedException
     {
         Path target = Files.createTempFile(null, null);
-        target.toFile().deleteOnExit();
+        DeleteTemporaryFiles.add(target);
 
         commandlineBuilder
             .reset()
