@@ -42,7 +42,9 @@ class TestcaseCollector extends SimpleFileVisitor<Path>
 
     public FileVisitResult visitFile (final Path file, final BasicFileAttributes attrs) throws IOException
     {
-        files.add(file);
+        if (file.toString().endsWith(".xml")) {
+            files.add(file);
+        }
         return FileVisitResult.CONTINUE;
     }
 }
