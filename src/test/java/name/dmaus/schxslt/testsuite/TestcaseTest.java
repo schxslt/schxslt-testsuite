@@ -32,12 +32,12 @@ import java.nio.file.Paths;
 
 class TestcaseTest
 {
-    Loader loader = new Loader();;
+    TestcaseLoader loader = new TestcaseLoader();;
 
     @Test
     public void testPopulate () throws ValidationException
     {
-        Testcase testcase = loader.loadTestcase(Paths.get("src/test/resources/testcase.xml"));
+        Testcase testcase = loader.load(Paths.get("src/test/resources/testcase.xml"));
 
         assertNull(testcase.schema);
         assertNull(testcase.document);
