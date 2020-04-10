@@ -31,76 +31,27 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import java.io.IOException;
+
+import java.util.Arrays;
 
 public final class Application
 {
-    final Loader loader = new Loader();
-
-    final ValidationFactory validationFactory;
-    final List<String> skipTestcaseIds;
-
-    public Application (final String configfile, final String implementation, final String[] skipTestcaseIds)
-    {
-        ApplicationContext ctx = new FileSystemXmlApplicationContext(configfile);
-        validationFactory = (ValidationFactory)ctx.getBean(implementation);
-        if (skipTestcaseIds == null) {
-            this.skipTestcaseIds = new ArrayList<String>();
-        } else {
-            this.skipTestcaseIds = Arrays.asList(skipTestcaseIds);
-        }
-    }
-
-    public Report run (final Path testsuite)
-    {
-        Driver driver = new Driver(validationFactory);
-        Report report = new Report();
-
-        for (Path file : findTestcases(testsuite)) {
-            Testcase testcase = loader.loadTestcase(file);
-            if (skipTestcaseIds != null && skipTestcaseIds.contains(testcase.getId())) {
-                report.addValidationResult(new ValidationResult(testcase, ValidationStatus.SKIPPED));
-            } else {
-                report.addValidationResult(driver.run(testcase));
-            }
-        }
-        return report;
-    }
-
     public static void main (final String[] args)
     {
         Configuration config = new Configuration();
         config.parse(args);
 
-        Application app = new Application(config.getConfigfile(), config.getValidationFactoryName(), config.getSkipTestcaseIds());
-
-        Report report = app.run(Paths.get(config.getTestsuite()));
-        boolean success = true;
-        for (ValidationResult result : report.getValidationResults()) {
-            if (result.getStatus() == ValidationStatus.FAILURE && !result.getTestcase().isOptional()) {
-                success = false;
-            }
-            System.out.println(result.getStatus() + " [" + result.getTestcase().getId() + "] " + result.getTestcase().getLabel());
-        }
-        if (success) {
-            System.exit(0);
+        Testsuite testsuite = new DirectoryTestsuite(Paths.get(config.getTestsuite()), null);
+        ApplicationContext ctx = new FileSystemXmlApplicationContext(config.getConfigfile());
+        ValidationFactory factory = (ValidationFactory)ctx.getBean(config.getValidationFactoryName());
+        Driver driver = new Driver(factory);
+        TestsuiteRunner runner;
+        if (config.getSkipTestcaseIds() == null) {
+            runner = new TestsuiteRunner(driver);
         } else {
-            System.exit(1);
+            runner = new TestsuiteRunner(driver, Arrays.asList(config.getSkipTestcaseIds()));
         }
-    }
-
-    List<Path> findTestcases (final Path directory)
-    {
-        TestcaseCollector testcases = new TestcaseCollector();
-        try {
-            Files.walkFileTree(directory, testcases);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return testcases.files;
+        runner.run(testsuite);
     }
 }
