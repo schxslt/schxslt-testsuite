@@ -43,7 +43,7 @@ public final class Driver
         this.validationFactory = validationFactory;
     }
 
-    ValidationResult run (final Testcase testcase)
+    ValidationResult execute (final Testcase testcase)
     {
         ValidationStatus status = ValidationStatus.FAILURE;
         String errorMessage = null;
