@@ -28,5 +28,6 @@ public enum ValidationStatus
 {
     FAILURE,
     SUCCESS,
-    SKIPPED
+    SKIPPED,
+    ERROR
 }
