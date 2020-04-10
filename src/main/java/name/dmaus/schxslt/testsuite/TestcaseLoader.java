@@ -44,7 +44,7 @@ import org.xml.sax.SAXParseException;
 
 import org.w3c.dom.Document;
 
-class Loader
+class TestcaseLoader
 {
     final ErrorHandler errors = new ErrorHandler () {
             public void fatalError (final SAXParseException e) { throw new RuntimeException(e); }
@@ -56,7 +56,7 @@ class Loader
 
     final DocumentBuilderFactory testcaseDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 
-    Loader ()
+    TestcaseLoader ()
     {
         try {
             SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
@@ -71,7 +71,7 @@ class Loader
         }
     }
 
-    Testcase loadTestcase (final Path input)
+    Testcase load (final Path input)
     {
         Document document = loadDocument(testcaseDocumentBuilderFactory, input);
         TestcaseSpec spec = new TestcaseSpec(document);
