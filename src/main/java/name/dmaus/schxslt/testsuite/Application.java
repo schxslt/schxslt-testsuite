@@ -42,7 +42,7 @@ public final class Application
         Configuration config = new Configuration();
         config.parse(args);
 
-        Testsuite testsuite = new DirectoryTestsuite(Paths.get(config.getTestsuite()), null);
+        Testsuite testsuite = new DirectoryTestsuite(Paths.get(config.getTestsuite()), config.getLabel());
         ApplicationContext ctx = new FileSystemXmlApplicationContext(config.getConfigfile());
         ValidationFactory factory = (ValidationFactory)ctx.getBean(config.getValidationFactoryName());
         Driver driver = new Driver(factory);

@@ -41,7 +41,8 @@ class Configuration
     {
         options.addRequiredOption("b", "bean", true, "Name of ValidationFactory bean");
         options.addRequiredOption("c", "config", true, "Spring beans configuration file");
-        options.addRequiredOption("t", "testcases", true, "Path to directory with testcases");
+        options.addRequiredOption("t", "testcases", true, "Testsuite directory");
+        options.addOption("l", "label", true, "Testsuite label");
         options.addOption("s", "skip", true, "Skip testcases with this id");
     }
 
@@ -54,6 +55,11 @@ class Configuration
             printHelp();
             System.exit(1);
         }
+    }
+
+    String getLabel ()
+    {
+        return arguments.getOptionValue("l");
     }
 
     String getValidationFactoryName ()
