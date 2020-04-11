@@ -31,12 +31,15 @@ import java.util.ArrayList;
 
 public final class Report
 {
-    private final Date timestamp = new Date();
-    private final List<ValidationResult> results = new ArrayList<ValidationResult>();
+    final Date timestamp = new Date();
+    final List<ValidationResult> results = new ArrayList<ValidationResult>();
 
-    private int countSuccess = 0;
-    private int countFailure = 0;
-    private int countSkipped = 0;
+    int countSuccess = 0;
+    int countFailure = 0;
+    int countSkipped = 0;
+    int countError = 0;
+
+    String label;
 
     public void addValidationResult (final ValidationResult result)
     {
@@ -46,6 +49,9 @@ public final class Report
             break;
         case SKIPPED:
             countSkipped++;
+            break;
+        case ERROR:
+            countError++;
             break;
         default:
             countFailure++;
@@ -78,9 +84,32 @@ public final class Report
         return results.size();
     }
 
+    public int countError ()
+    {
+        return countError;
+    }
+
     public Date getTimestamp ()
     {
         return timestamp;
+    }
+
+    public boolean hasLabel ()
+    {
+        if (label == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public String getLabel ()
+    {
+        return label;
+    }
+
+    public void setLabel (final String label)
+    {
+        this.label = label;
     }
 
 }

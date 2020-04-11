@@ -52,6 +52,13 @@ public final class ReportSerializer
         root.setAttribute("success", Integer.toString(report.countSuccess()));
         root.setAttribute("failure", Integer.toString(report.countFailure()));
         root.setAttribute("skipped", Integer.toString(report.countSkipped()));
+        root.setAttribute("error", Integer.toString(report.countError()));
+
+        if (report.hasLabel()) {
+            root
+                .appendChild(document.createElementNS(NS, "label"))
+                .appendChild(document.createTextNode(report.getLabel()));
+        }
 
         for (ValidationResult result : report.getValidationResults()) {
             appendValidationResult(root, result);
