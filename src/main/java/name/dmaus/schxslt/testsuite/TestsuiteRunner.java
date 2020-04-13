@@ -29,29 +29,32 @@ import java.util.ArrayList;
 
 import java.util.logging.Logger;
 
-class TestsuiteRunner
+public final class TestsuiteRunner
 {
     final Logger log = Logger.getLogger(getClass().getName());
     final Driver driver;
     final List<String> skipTestcaseIds;
 
-    TestsuiteRunner (final Driver driver)
+    public TestsuiteRunner (final Driver driver)
     {
         this(driver, new ArrayList<String>());
     }
 
 
-    TestsuiteRunner (final Driver driver, final List<String> skipTestcaseIds)
+    public TestsuiteRunner (final Driver driver, final List<String> skipTestcaseIds)
     {
         this.driver = driver;
         this.skipTestcaseIds = skipTestcaseIds;
     }
 
-    void run (final Testsuite testsuite)
+    public Report run (final Testsuite testsuite)
     {
-        log.info("Schematron teststuite '" + testsuite.getLabel() + "'");
+        Report report = new Report();
+        report.setLabel(testsuite.getLabel());
+
+        log.fine("Schematron teststuite '" + testsuite.getLabel() + "'");
         for (Testcase testcase : testsuite.getTestcases()) {
-            log.info("Running Testcase '" + testcase.getId() + "'");
+            log.fine("Running Testcase '" + testcase.getId() + "'");
             ValidationResult result;
             if (skipTestcaseIds.contains(testcase.getId())) {
                 result = new ValidationResult(testcase, ValidationStatus.SKIPPED, null, null);
@@ -62,8 +65,10 @@ class TestsuiteRunner
                     result = new ValidationResult(testcase, ValidationStatus.ERROR, null, e.getMessage());
                 }
             }
-            log.info("Testcase '" + testcase.getId() + "' finished with status " + result.getStatus());
+            report.addValidationResult(result);
+            log.fine("Testcase '" + testcase.getId() + "' finished with status " + result.getStatus());
         }
+        return report;
     }
 
 }

@@ -26,7 +26,7 @@ package name.dmaus.schxslt.testsuite;
 
 import java.util.List;
 
-interface Testsuite
+public interface Testsuite
 {
     List<Testcase> getTestcases ();
     String getLabel ();

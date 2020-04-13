@@ -35,12 +35,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.ArrayList;
 
-class DirectoryTestsuite implements Testsuite
+public class DirectoryTestsuite implements Testsuite
 {
     final Path directory;
     final String label;
 
-    DirectoryTestsuite (final Path directory, final String label)
+    public DirectoryTestsuite (final Path directory, final String label)
     {
         this.label = label;
         this.directory = directory;
