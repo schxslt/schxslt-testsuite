@@ -5,7 +5,7 @@
 
   <groupId>name.dmaus.schxslt</groupId>
   <artifactId>testsuite</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.4-SNAPSHOT</version>
 
   <name>SchXslt Testsuite</name>
   <description>Run tests for Schematron processors</description>
