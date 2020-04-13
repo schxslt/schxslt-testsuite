@@ -53,7 +53,7 @@ public final class JavaValidation implements Validation
 {
     static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
 
-    final List<String> compilerSteps;
+    final List<Path> compilerSteps;
     final TransformerFactory transformerFactory;
     final Set<String> features = new HashSet<String>();
 
@@ -75,7 +75,7 @@ public final class JavaValidation implements Validation
     String phase;
     Document report;
 
-    public JavaValidation (final TransformerFactory transformerFactory, final String[] features, final List<String> compilerSteps)
+    public JavaValidation (final TransformerFactory transformerFactory, final String[] features, final List<Path> compilerSteps)
     {
         this.transformerFactory = transformerFactory;
         this.compilerSteps = compilerSteps;
@@ -152,9 +152,8 @@ public final class JavaValidation implements Validation
     Transformer compileSchematron () throws IOException, TransformerException
     {
         Source source = new StreamSource(Files.newInputStream(schema), schema.toString());
-        for (String step : compilerSteps) {
-            final Path stylesheet = Paths.get(step);
-            final Transformer transformer = transformerFactory.newTransformer(new StreamSource(Files.newInputStream(stylesheet), stylesheet.toString()));
+        for (Path step : compilerSteps) {
+            final Transformer transformer = transformerFactory.newTransformer(new StreamSource(Files.newInputStream(step), step.toString()));
             final DOMResult result = new DOMResult();
             transformer.setErrorListener(errorListener);
             if (phase != null && !phase.isEmpty()) {

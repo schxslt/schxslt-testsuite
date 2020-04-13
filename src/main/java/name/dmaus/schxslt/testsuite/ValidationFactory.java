@@ -24,8 +24,13 @@
 
 package name.dmaus.schxslt.testsuite;
 
+import java.nio.file.Path;
+
 public interface ValidationFactory
 {
+
+    void setBaseDirectory (final Path basedir);
+
     String getLabel ();
 
     String getQueryBinding ();

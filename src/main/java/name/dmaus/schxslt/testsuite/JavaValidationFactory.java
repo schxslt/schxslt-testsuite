@@ -24,7 +24,11 @@
 
 package name.dmaus.schxslt.testsuite;
 
+import java.nio.file.Paths;
+import java.nio.file.Path;
+
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.xml.transform.TransformerFactory;
 
@@ -37,6 +41,8 @@ public final class JavaValidationFactory implements ValidationFactory
     final String label;
     final String queryBinding;
 
+    Path baseDirectory;
+
     public JavaValidationFactory (final String label, final String queryBinding, final TransformerFactory transformerFactory, final String[] features, final List<String> compilerSteps)
     {
         this.label = label;
@@ -44,6 +50,11 @@ public final class JavaValidationFactory implements ValidationFactory
         this.transformerFactory = transformerFactory;
         this.compilerSteps = compilerSteps;
         this.features = features;
+    }
+
+    public void setBaseDirectory (final Path basedir)
+    {
+        baseDirectory = basedir;
     }
 
     public String getLabel ()
@@ -58,6 +69,11 @@ public final class JavaValidationFactory implements ValidationFactory
 
     public JavaValidation newInstance ()
     {
-        return new JavaValidation(transformerFactory, features, compilerSteps);
+        List<Path> steps = new ArrayList<Path>();
+        for (String step : compilerSteps) {
+            steps.add(baseDirectory.resolve(Paths.get(step)));
+        }
+
+        return new JavaValidation(transformerFactory, features, steps);
     }
 }

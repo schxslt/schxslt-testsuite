@@ -24,7 +24,11 @@
 
 package name.dmaus.schxslt.testsuite;
 
+import java.nio.file.Paths;
+import java.nio.file.Path;
+
 import java.util.List;
+import java.util.ArrayList;
 
 class CommandlineValidationFactory implements ValidationFactory
 {
@@ -35,6 +39,8 @@ class CommandlineValidationFactory implements ValidationFactory
     final String label;
     final String queryBinding;
 
+    Path baseDirectory;
+
     CommandlineValidationFactory (final String label, final String queryBinding, final CommandlineBuilder commandlineBuilder, final String[] features, final List<String> compilerSteps)
     {
         this.label = label;
@@ -42,6 +48,11 @@ class CommandlineValidationFactory implements ValidationFactory
         this.commandlineBuilder = commandlineBuilder;
         this.compilerSteps = compilerSteps;
         this.features = features;
+    }
+
+    public void setBaseDirectory (final Path basedir)
+    {
+        baseDirectory = basedir;
     }
 
     public String getLabel ()
@@ -56,7 +67,12 @@ class CommandlineValidationFactory implements ValidationFactory
 
     public CommandlineValidation newInstance ()
     {
-        return new CommandlineValidation(commandlineBuilder, features, compilerSteps);
+        List<Path> steps = new ArrayList<Path>();
+        for (String step : compilerSteps) {
+            steps.add(baseDirectory.resolve(Paths.get(step)));
+        }
+
+        return new CommandlineValidation(commandlineBuilder, features, steps);
     }
 
 }
