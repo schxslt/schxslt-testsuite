@@ -35,13 +35,14 @@ import java.util.Comparator;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
-import java.nio.file.DirectoryNotEmptyException;
-
 import java.io.IOException;
 
 final class DeleteTemporaryFiles
 {
     static final Set<Path> temporaryFiles = new HashSet<Path>();
+    
+    private DeleteTemporaryFiles ()
+    {}
 
     // This is a static initializer. It is run when an instance of the class is instantiated, a static function or
     // member is accessed.
@@ -68,5 +69,4 @@ final class DeleteTemporaryFiles
             }
         }
     }
-
 }

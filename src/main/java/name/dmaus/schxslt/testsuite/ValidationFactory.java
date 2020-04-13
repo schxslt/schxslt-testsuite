@@ -29,7 +29,7 @@ import java.nio.file.Path;
 public interface ValidationFactory
 {
 
-    void setBaseDirectory (final Path basedir);
+    void setBaseDirectory (Path basedir);
 
     String getLabel ();
 

@@ -34,12 +34,15 @@ public final class Report
     final Date timestamp = new Date();
     final List<ValidationResult> results = new ArrayList<ValidationResult>();
 
-    int countSuccess = 0;
-    int countFailure = 0;
-    int countSkipped = 0;
-    int countError = 0;
+    int countSuccess;
+    int countFailure;
+    int countSkipped;
+    int countError;
 
     String label;
+
+    public Report ()
+    {}
 
     public void addValidationResult (final ValidationResult result)
     {
@@ -107,9 +110,9 @@ public final class Report
         return label;
     }
 
-    public void setLabel (final String label)
+    public void setLabel (final String labelStr)
     {
-        this.label = label;
+        this.label = labelStr;
     }
 
 }

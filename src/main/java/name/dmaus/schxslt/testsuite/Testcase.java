@@ -217,24 +217,26 @@ public final class Testcase
         return nsContext;
     }
 
-    void deleteTemporaryFile (Path fileOrDirectory)
+    void deleteTemporaryFile (final Path fileOrDirectory)
     {
+        Path current = fileOrDirectory;
         do {
-            DeleteTemporaryFiles.add(fileOrDirectory);
-            fileOrDirectory = fileOrDirectory.getParent();
-        } while (fileOrDirectory != null && !fileOrDirectory.equals(tempDirectory));
+            DeleteTemporaryFiles.add(current);
+            current = current.getParent();
+        } while (current != null && !current.equals(tempDirectory));
     }
 
     void collectNamespaceDecls (final Namespaces nsContext, final Node node)
     {
         NamedNodeMap attrs = node.getAttributes();
-        if (attrs != null) {
-            for (int i = 0; i < attrs.getLength(); i++) {
-                if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attrs.item(i).getNamespaceURI())) {
-                    String prefix = attrs.item(i).getLocalName();
-                    if (!nsContext.isDeclaredPrefix(prefix)) {
-                        nsContext.addNamespaceBinding(prefix, attrs.item(i).getTextContent());
-                    }
+        if (attrs == null) {
+            return;
+        }
+        for (int i = 0; i < attrs.getLength(); i++) {
+            if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attrs.item(i).getNamespaceURI())) {
+                String prefix = attrs.item(i).getLocalName();
+                if (!nsContext.isDeclaredPrefix(prefix)) {
+                    nsContext.addNamespaceBinding(prefix, attrs.item(i).getTextContent());
                 }
             }
         }

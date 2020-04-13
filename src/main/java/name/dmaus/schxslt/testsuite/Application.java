@@ -27,16 +27,15 @@ package name.dmaus.schxslt.testsuite;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
-
-import java.io.IOException;
 
 import java.util.Arrays;
 
 public final class Application
 {
+    private Application ()
+    {}
+
     public static void main (final String[] args)
     {
         Configuration config = new Configuration();

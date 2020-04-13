@@ -35,7 +35,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.ArrayList;
 
-public class DirectoryTestsuite implements Testsuite
+public final class DirectoryTestsuite implements Testsuite
 {
     final Path directory;
     final String label;

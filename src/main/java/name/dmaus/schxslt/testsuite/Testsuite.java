@@ -29,5 +29,6 @@ import java.util.List;
 public interface Testsuite
 {
     List<Testcase> getTestcases ();
+
     String getLabel ();
 }
