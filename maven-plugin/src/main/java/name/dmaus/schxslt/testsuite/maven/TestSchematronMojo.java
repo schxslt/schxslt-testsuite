@@ -85,7 +85,7 @@ public class TestSchematronMojo extends AbstractMojo
             Report report = runner.run(testsuite);
             for (ValidationResult result : report.getValidationResults()) {
                 final String msg = String.format("Status: %s Id: %s Label: %s", result.getStatus(), result.getTestcase().getId(), result.getTestcase().getLabel());
-                if (result.getStatus() == ValidationStatus.FAILURE) {
+                if (result.getStatus() == ValidationStatus.FAILURE || result.getStatus() == ValidationStatus.ERROR) {
                     getLog().error(msg);
                     getLog().error(result.getErrorMessage());
                 } else if (result.getStatus() == ValidationStatus.SKIPPED) {
