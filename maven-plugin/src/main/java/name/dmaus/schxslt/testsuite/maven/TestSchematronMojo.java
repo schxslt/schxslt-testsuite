@@ -95,11 +95,11 @@ public class TestSchematronMojo extends AbstractMojo
             final String msg = String.format("[Passed/Skipped/Failed/Total] = [%d/%d/%d/%d]",
                                              report.countSuccess(),
                                              report.countSkipped(),
-                                             report.countFailure(),
+                                             report.countFailure() + report.countError(),
                                              report.countTotal()
                                              );
 
-            if (report.countFailure() > 0) {
+            if (report.countFailure() > 0 || report.countError() > 0) {
                 failMojoExecution = true;
                 getLog().error(msg);
             } else {
