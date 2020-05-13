@@ -87,7 +87,9 @@ public class TestSchematronMojo extends AbstractMojo
                 final String msg = String.format("Status: %s Id: %s Label: %s", result.getStatus(), result.getTestcase().getId(), result.getTestcase().getLabel());
                 if (result.getStatus() == ValidationStatus.FAILURE || result.getStatus() == ValidationStatus.ERROR) {
                     getLog().error(msg);
-                    getLog().error(result.getErrorMessage());
+                    if (result.getErrorMessage() != null) {
+                        getLog().error(result.getErrorMessage());
+                    }
                 } else if (result.getStatus() == ValidationStatus.SKIPPED) {
                     getLog().info(msg);
                 }
