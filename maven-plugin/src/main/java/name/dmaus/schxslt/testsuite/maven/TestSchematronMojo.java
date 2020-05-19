@@ -91,7 +91,7 @@ public class TestSchematronMojo extends AbstractMojo
                         getLog().error(result.getErrorMessage());
                     }
                 } else if (result.getStatus() == ValidationStatus.SKIPPED) {
-                    getLog().info(msg);
+                    getLog().warn(msg);
                 }
             }
             final String msg = String.format("[Passed/Skipped/Failed/Total] = [%d/%d/%d/%d]",
