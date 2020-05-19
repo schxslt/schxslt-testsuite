@@ -50,15 +50,15 @@ public final class Driver
         Document report = null;
 
         try {
-            testcase.populate(validationFactory.getQueryBinding());
-
             Validation validation = validationFactory.newInstance();
 
-            validation.setSchema(testcase.getSchema());
-            validation.setDocument(testcase.getDocument());
-            validation.setPhase(testcase.getPhase());
-
             if (isFeatureMatch(validation, testcase)) {
+                testcase.populate(validationFactory.getQueryBinding());
+
+                validation.setSchema(testcase.getSchema());
+                validation.setDocument(testcase.getDocument());
+                validation.setPhase(testcase.getPhase());
+
                 boolean success;
 
                 validation.execute();
