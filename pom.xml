@@ -6,7 +6,7 @@
 
   <groupId>name.dmaus.schxslt</groupId>
   <artifactId>testsuite-parent</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <packaging>pom</packaging>
 
   <name>SchXslt Testsuite Parent</name>
@@ -25,7 +25,7 @@
     <developer>
       <id>dmaus</id>
       <name>David Maus</name>
-      <email>schxslt@dmaus.name</email>
+      <email>dmaus@dmaus.name</email>
     </developer>
   </developers>
 
@@ -70,7 +70,7 @@
 
   <modules>
     <module>core</module>
-    <module>cli</module>
+    <!-- <module>cli</module> -->
     <module>maven-plugin</module>
   </modules>
 

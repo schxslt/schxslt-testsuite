@@ -7,7 +7,7 @@
   <parent>
     <artifactId>testsuite-parent</artifactId>
     <groupId>name.dmaus.schxslt</groupId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5</version>
   </parent>
 
   <artifactId>testsuite-maven-plugin</artifactId>
