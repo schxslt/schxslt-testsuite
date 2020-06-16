@@ -37,6 +37,17 @@
       <artifactId>commons-cli</artifactId>
       <version>1.4</version>
     </dependency>
+    <!-- XSLT Processors -->
+    <dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>Saxon-HE</artifactId>
+      <version>9.9.1-6</version>
+    </dependency>
+    <dependency>
+      <groupId>xalan</groupId>
+      <artifactId>xalan</artifactId>
+      <version>2.7.2</version>
+    </dependency>
   </dependencies>
 
   <build>
