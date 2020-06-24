@@ -46,18 +46,22 @@ import javax.xml.xpath.XPath;
 
 import javax.xml.XMLConstants;
 
+/**
+ * Schematron testcase.
+ *
+ */
 public final class Testcase
 {
-    final XMLSerializer serializer = new XMLSerializer();
-    final TestcaseSpec spec;
+    private final XMLSerializer serializer = new XMLSerializer();
+    private final TestcaseSpec spec;
 
-    Path schema;
-    Path document;
-    String queryBinding;
+    private Path schema;
+    private Path document;
+    private String queryBinding;
 
-    Path report;
-    Path tempDirectory;
-    List<Path> secondary = new ArrayList<Path>();
+    private Path report;
+    private Path tempDirectory;
+    private List<Path> secondary = new ArrayList<Path>();
 
     Testcase (final TestcaseSpec spec)
     {
@@ -246,14 +250,13 @@ public final class Testcase
     void collectNamespaceDecls (final Namespaces nsContext, final Node node)
     {
         NamedNodeMap attrs = node.getAttributes();
-        if (attrs == null) {
-            return;
-        }
-        for (int i = 0; i < attrs.getLength(); i++) {
-            if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attrs.item(i).getNamespaceURI())) {
-                String prefix = attrs.item(i).getLocalName();
-                if (!nsContext.isDeclaredPrefix(prefix)) {
-                    nsContext.addNamespaceBinding(prefix, attrs.item(i).getTextContent());
+        if (attrs != null) {
+            for (int i = 0; i < attrs.getLength(); i++) {
+                if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attrs.item(i).getNamespaceURI())) {
+                    String prefix = attrs.item(i).getLocalName();
+                    if (!nsContext.isDeclaredPrefix(prefix)) {
+                        nsContext.addNamespaceBinding(prefix, attrs.item(i).getTextContent());
+                    }
                 }
             }
         }

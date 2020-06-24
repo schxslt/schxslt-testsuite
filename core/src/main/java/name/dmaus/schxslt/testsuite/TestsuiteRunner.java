@@ -27,13 +27,14 @@ package name.dmaus.schxslt.testsuite;
 import java.util.List;
 import java.util.ArrayList;
 
-import java.util.logging.Logger;
-
+/**
+ * Execute all tests of a testsuite.
+ *
+ */
 public final class TestsuiteRunner
 {
-    final Logger log = Logger.getLogger(getClass().getName());
-    final Driver driver;
-    final List<String> skipTestcaseIds;
+    private final Driver driver;
+    private final List<String> skipTestcaseIds;
 
     public TestsuiteRunner (final Driver driver)
     {
@@ -52,9 +53,7 @@ public final class TestsuiteRunner
         Report report = new Report();
         report.setLabel(testsuite.getLabel());
 
-        log.fine("Schematron teststuite '" + testsuite.getLabel() + "'");
         for (Testcase testcase : testsuite.getTestcases()) {
-            log.fine("Running Testcase '" + testcase.getId() + "'");
             ValidationResult result;
             if (skipTestcaseIds.contains(testcase.getId())) {
                 result = new ValidationResult(testcase, ValidationStatus.SKIPPED, null, null);
@@ -66,7 +65,6 @@ public final class TestsuiteRunner
                 }
             }
             report.addValidationResult(result);
-            log.fine("Testcase '" + testcase.getId() + "' finished with status " + result.getStatus());
         }
         return report;
     }

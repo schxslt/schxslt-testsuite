@@ -27,12 +27,13 @@ package name.dmaus.schxslt.testsuite;
 import java.util.Map;
 import java.util.ArrayList;
 
-class XsltprocCommandlineBuilder extends CommandlineBuilder
+/**
+ * Build commandline for xsltproc implementation.
+ *
+ */
+final class XsltprocCommandlineBuilder extends CommandlineBuilder
 {
-    XsltprocCommandlineBuilder ()
-    {}
-
-    String [] build ()
+    String[] build ()
     {
         ArrayList<String> commands = new ArrayList<String>();
         commands.add("xsltproc");

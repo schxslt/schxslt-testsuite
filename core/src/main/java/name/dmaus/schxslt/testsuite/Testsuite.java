@@ -26,6 +26,10 @@ package name.dmaus.schxslt.testsuite;
 
 import java.util.List;
 
+/**
+ * A collection of testcases.
+ *
+ */
 public interface Testsuite
 {
     List<Testcase> getTestcases ();

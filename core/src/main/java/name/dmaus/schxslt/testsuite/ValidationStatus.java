@@ -24,6 +24,21 @@
 
 package name.dmaus.schxslt.testsuite;
 
+/**
+ * Represents the possible validation statuses.
+ *
+ * <dl>
+ *   <dt>SUCCESS</dt>
+ *   <dd>all expectations of the testcase were met</dd>
+ *   <dt>FAILURE</dt>
+ *   <dd>an expectation of the testcase was not met</dd>
+ *   <dt>SKIPPED</dt>
+ *   <dd>the testcase was not executed</dd>
+ *   <dt>ERROR</dt>
+ *   <dd>an unexpected error occurred while setting up or executing the testcase</dd>
+ * </dl>
+ *
+ */ 
 public enum ValidationStatus
 {
     FAILURE,

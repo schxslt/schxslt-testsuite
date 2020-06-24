@@ -28,6 +28,10 @@ import java.nio.file.Path;
 
 import java.util.Map;
 
+/**
+ * Base class of commandline builders.
+ *
+ */
 abstract class CommandlineBuilder
 {
     Path target;
@@ -68,6 +72,6 @@ abstract class CommandlineBuilder
         return this;
     }
 
-    abstract String [] build ();
+    abstract String[] build ();
 
 }

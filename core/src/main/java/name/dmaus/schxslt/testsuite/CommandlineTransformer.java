@@ -32,14 +32,15 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 
-/*
+/**
  * Perform an XSL transformation by executing a commandline application.
+ *
  */
-class CommandlineTransformer
+final class CommandlineTransformer
 {
-    final Map<String, String> parameters = new HashMap<String, String>();
-    final Path stylesheet;
-    final CommandlineBuilder commandlineBuilder;
+    private final Map<String, String> parameters = new HashMap<String, String>();
+    private final Path stylesheet;
+    private final CommandlineBuilder commandlineBuilder;
 
     CommandlineTransformer (final Path stylesheet, final CommandlineBuilder commandlineBuilder)
     {
@@ -64,7 +65,7 @@ class CommandlineTransformer
             .setParameters(parameters)
             .setTarget(target);
 
-        String [] call = commandlineBuilder.build();
+        String[] call = commandlineBuilder.build();
 
         Runtime runtime = Runtime.getRuntime();
         Process process = runtime.exec(call);

@@ -30,20 +30,30 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 
-class Configuration
+/**
+ * Commandline application configuration.
+ *
+ */
+final class Configuration
 {
-    final DefaultParser parser = new DefaultParser();
-    final Options options = new Options();
+    private static final String OPTION_BEAN_SHORT = "b";
+    private static final String OPTION_CONFIG_SHORT = "c";
+    private static final String OPTION_TESTCASES_SHORT = "t";
+    private static final String OPTION_LABEL_SHORT = "l";
+    private static final String OPTION_SKIP_SHORT = "s";
 
-    CommandLine arguments;
+    private final DefaultParser parser = new DefaultParser();
+    private final Options options = new Options();
+
+    private CommandLine arguments;
 
     Configuration ()
     {
-        options.addRequiredOption("b", "bean", true, "Name of ValidationFactory bean");
-        options.addRequiredOption("c", "config", true, "Spring beans configuration file");
-        options.addRequiredOption("t", "testcases", true, "Testsuite directory");
-        options.addOption("l", "label", true, "Testsuite label");
-        options.addOption("s", "skip", true, "Skip testcases with this id");
+        options.addRequiredOption(OPTION_BEAN_SHORT, "bean", true, "Name of ValidationFactory bean");
+        options.addRequiredOption(OPTION_CONFIG_SHORT, "config", true, "Spring beans configuration file");
+        options.addRequiredOption(OPTION_TESTCASES_SHORT, "testcases", true, "Testsuite directory");
+        options.addOption(OPTION_LABEL_SHORT, "label", true, "Testsuite label");
+        options.addOption(OPTION_SKIP_SHORT, "skip", true, "Skip testcases with this id");
     }
 
     void parse (final String[] args)
@@ -59,27 +69,27 @@ class Configuration
 
     String getLabel ()
     {
-        return arguments.getOptionValue("l");
+        return arguments.getOptionValue(OPTION_LABEL_SHORT);
     }
 
     String getValidationFactoryName ()
     {
-        return arguments.getOptionValue("b");
+        return arguments.getOptionValue(OPTION_BEAN_SHORT);
     }
 
     String getTestsuite ()
     {
-        return arguments.getOptionValue("t");
+        return arguments.getOptionValue(OPTION_TESTCASES_SHORT);
     }
 
     String getConfigfile ()
     {
-        return arguments.getOptionValue("c");
+        return arguments.getOptionValue(OPTION_CONFIG_SHORT);
     }
 
     String[] getSkipTestcaseIds ()
     {
-        return arguments.getOptionValues("s");
+        return arguments.getOptionValues(OPTION_SKIP_SHORT);
     }
 
     void printHelp ()

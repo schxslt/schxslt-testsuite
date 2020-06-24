@@ -37,12 +37,19 @@ import java.nio.file.Files;
 
 import java.io.IOException;
 
+/**
+ * Collect and delete temporary files on shutdown.
+ *
+ * <p>Serves as functional replacement for File.deleteOnExit().</p>
+ *
+ */
 final class DeleteTemporaryFiles
 {
-    static final Set<Path> temporaryFiles = new HashSet<Path>();
-    
+    static final Set<Path> FILES = new HashSet<Path>();
+
     private DeleteTemporaryFiles ()
-    {}
+    {
+    }
 
     // This is a static initializer. It is run when an instance of the class is instantiated, a static function or
     // member is accessed.
@@ -54,18 +61,19 @@ final class DeleteTemporaryFiles
 
     static void add (final Path fileOrDirectory)
     {
-        temporaryFiles.add(fileOrDirectory);
+        FILES.add(fileOrDirectory);
     }
 
 
     static void onRuntimeShutdown ()
     {
-        List<Path> files = new ArrayList<Path>(temporaryFiles);
+        List<Path> files = new ArrayList<Path>(FILES);
         files.sort(Comparator.comparing(Path::getNameCount).reversed());
         for (Path file : files) {
             try {
                 Files.deleteIfExists(file);
             } catch (IOException | SecurityException e) {
+                System.err.println(e.getMessage());
             }
         }
     }

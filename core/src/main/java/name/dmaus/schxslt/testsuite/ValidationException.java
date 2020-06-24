@@ -24,6 +24,10 @@
 
 package name.dmaus.schxslt.testsuite;
 
+/**
+ * Signal an error while executing a testcase.
+ *
+ */
 public final class ValidationException extends Exception
 {
     public ValidationException (final String message)

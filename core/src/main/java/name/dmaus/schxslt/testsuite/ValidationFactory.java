@@ -26,6 +26,10 @@ package name.dmaus.schxslt.testsuite;
 
 import java.nio.file.Path;
 
+/**
+ * Interface of implementations.
+ *
+ */
 public interface ValidationFactory
 {
 

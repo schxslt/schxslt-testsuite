@@ -28,14 +28,33 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 
-public class Processor
+/**
+ * Schematron implementation descriptor.
+ *
+ */
+public final class Processor
 {
     @Parameter(required = true)
-    String id;
+    private String id;
 
     @Parameter(required = false)
-    File report;
+    private File report;
 
     @Parameter(required = false)
-    String[] skip;
+    private String[] skip;
+
+    String[] getSkip ()
+    {
+        return skip;
+    }
+
+    File getReport ()
+    {
+        return report;
+    }
+
+    String getId ()
+    {
+        return id;
+    }
 }

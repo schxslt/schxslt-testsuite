@@ -44,17 +44,21 @@ import org.xml.sax.SAXParseException;
 
 import org.w3c.dom.Document;
 
+/**
+ * Deserialize a testcase specification.
+ *
+ */
 class TestcaseLoader
 {
-    final ErrorHandler errors = new ErrorHandler () {
-            public void fatalError (final SAXParseException e) { throw new RuntimeException(e); }
+    private final ErrorHandler errors = new ErrorHandler () {
+            public void fatalError (final SAXParseException exception) { throw new RuntimeException(exception); }
 
-            public void error (final SAXParseException e) { throw new RuntimeException(e); }
+            public void error (final SAXParseException exception) { throw new RuntimeException(exception); }
 
-            public void warning (final SAXParseException e) { throw new RuntimeException(e); }
+            public void warning (final SAXParseException exception) { throw new RuntimeException(exception); }
         };
 
-    final DocumentBuilderFactory testcaseDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
+    private final DocumentBuilderFactory testcaseDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 
     TestcaseLoader ()
     {
@@ -84,7 +88,7 @@ class TestcaseLoader
             DocumentBuilder builder = factory.newDocumentBuilder();
             builder.setErrorHandler(errors);
             return builder.parse(Files.newInputStream(input), input.toString());
-        } catch (ParserConfigurationException| SAXException | IOException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException(e);
         }
 

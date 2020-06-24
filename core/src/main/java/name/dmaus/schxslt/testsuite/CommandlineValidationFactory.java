@@ -30,16 +30,20 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.ArrayList;
 
-class CommandlineValidationFactory implements ValidationFactory
+/**
+ * Factory for commandline implementations.
+ *
+ */
+final class CommandlineValidationFactory implements ValidationFactory
 {
-    final String[] features;
-    final List<String> compilerSteps;
-    final CommandlineBuilder commandlineBuilder;
+    private final String[] features;
+    private final List<String> compilerSteps;
+    private final CommandlineBuilder commandlineBuilder;
 
-    final String label;
-    final String queryBinding;
+    private final String label;
+    private final String queryBinding;
 
-    Path baseDirectory = Paths.get("").toAbsolutePath();
+    private Path baseDirectory = Paths.get("").toAbsolutePath();
 
     CommandlineValidationFactory (final String label, final String queryBinding, final CommandlineBuilder commandlineBuilder, final String[] features, final List<String> compilerSteps)
     {

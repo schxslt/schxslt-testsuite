@@ -29,20 +29,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Collect information about testcase executions.
+ *
+ */
 public final class Report
 {
-    final Date timestamp = new Date();
-    final List<ValidationResult> results = new ArrayList<ValidationResult>();
+    private final Date timestamp = new Date();
+    private final List<ValidationResult> results = new ArrayList<ValidationResult>();
 
-    int countSuccess;
-    int countFailure;
-    int countSkipped;
-    int countError;
+    private int countSuccess;
+    private int countFailure;
+    private int countSkipped;
+    private int countError;
 
-    String label;
-
-    public Report ()
-    {}
+    private String label;
 
     public void addValidationResult (final ValidationResult result)
     {

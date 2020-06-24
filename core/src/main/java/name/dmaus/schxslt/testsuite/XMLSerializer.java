@@ -39,9 +39,13 @@ import java.nio.file.Path;
 
 import org.w3c.dom.Node;
 
+/**
+ * Serialize DOM to disk.
+ *
+ */
 public final class XMLSerializer
 {
-    final Transformer transformer;
+    private final Transformer transformer;
 
     public XMLSerializer ()
     {

@@ -35,10 +35,14 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Testsuite defined by a directory.
+ *
+ */
 public final class DirectoryTestsuite implements Testsuite
 {
-    final Path directory;
-    final String label;
+    private final Path directory;
+    private final String label;
 
     public DirectoryTestsuite (final Path directory, final String label)
     {

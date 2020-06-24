@@ -38,19 +38,23 @@ import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+/**
+ * Implements validation with commandline applications like xsltproc.
+ *
+ */
 public final class CommandlineValidation implements Validation
 {
-    static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
+    private static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
 
-    final List<Path> compilerSteps;
-    final Set<String> features = new HashSet<String>();
-    final CommandlineBuilder commandlineBuilder;
-    final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    private final List<Path> compilerSteps;
+    private final Set<String> features = new HashSet<String>();
+    private final CommandlineBuilder commandlineBuilder;
+    private final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
-    Path schema;
-    Path document;
-    String phase;
-    Document report;
+    private Path schema;
+    private Path document;
+    private String phase;
+    private Document report;
 
     public CommandlineValidation (final CommandlineBuilder commandlineBuilder, final String[] features, final List<Path> compilerSteps)
     {
@@ -110,7 +114,6 @@ public final class CommandlineValidation implements Validation
             Path compiledReport = transformer.transform(document);
 
             report = documentBuilderFactory.newDocumentBuilder().parse(Files.newInputStream(compiledReport));
-
         } catch (Exception e) {
             throw new ValidationException(e);
         }

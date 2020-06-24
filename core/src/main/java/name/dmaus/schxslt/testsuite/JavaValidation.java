@@ -48,31 +48,37 @@ import javax.xml.transform.dom.DOMSource;
 
 import javax.xml.transform.stream.StreamSource;
 
+/**
+ * Java-based implementations.
+ *
+ */
 public final class JavaValidation implements Validation
 {
-    static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
+    private static final String NSSVRL = "http://purl.oclc.org/dsdl/svrl";
 
-    final List<Path> compilerSteps;
-    final TransformerFactory transformerFactory;
-    final Set<String> features = new HashSet<String>();
+    private final List<Path> compilerSteps;
+    private final TransformerFactory transformerFactory;
+    private final Set<String> features = new HashSet<String>();
 
-    final ErrorListener errorListener = new ErrorListener () {
-            public void error (final TransformerException e)
-            {}
-
-            public void warning (final TransformerException e)
-            {}
-
-            public void fatalError (final TransformerException e) throws TransformerException
+    private final ErrorListener errorListener = new ErrorListener () {
+            public void error (final TransformerException exception)
             {
-                throw new TransformerException(e);
+            }
+
+            public void warning (final TransformerException exception)
+            {
+            }
+
+            public void fatalError (final TransformerException exception) throws TransformerException
+            {
+                throw new TransformerException(exception);
             }
         };
 
-    Path schema;
-    Path document;
-    String phase;
-    Document report;
+    private Path schema;
+    private Path document;
+    private String phase;
+    private Document report;
 
     public JavaValidation (final TransformerFactory transformerFactory, final String[] features, final List<Path> compilerSteps)
     {
@@ -132,9 +138,9 @@ public final class JavaValidation implements Validation
 
             DOMResult result = new DOMResult();
 
-            Transformer t = compileSchematron();
+            Transformer transformer = compileSchematron();
 
-            t.transform(source, result);
+            transformer.transform(source, result);
 
             report = (Document)result.getNode();
 

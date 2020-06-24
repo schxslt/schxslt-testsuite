@@ -39,10 +39,10 @@ class TestcaseTest
     {
         Testcase testcase = loader.load(Paths.get("src/test/resources/testcase.xml"));
 
-        assertNull(testcase.schema);
-        assertNull(testcase.document);
+        assertNull(testcase.getSchema());
+        assertNull(testcase.getDocument());
         testcase.populate("xslt");
-        assertNotNull(testcase.schema);
-        assertNotNull(testcase.document);
+        assertNotNull(testcase.getSchema());
+        assertNotNull(testcase.getDocument());
     }
 }

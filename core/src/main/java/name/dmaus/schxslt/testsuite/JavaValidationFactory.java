@@ -32,16 +32,20 @@ import java.util.ArrayList;
 
 import javax.xml.transform.TransformerFactory;
 
+/**
+ * Factory for Java-based implementations.
+ *
+ */
 public final class JavaValidationFactory implements ValidationFactory
 {
-    final String[] features;
-    final List<String> compilerSteps;
-    final TransformerFactory transformerFactory;
+    private final String[] features;
+    private final List<String> compilerSteps;
+    private final TransformerFactory transformerFactory;
 
-    final String label;
-    final String queryBinding;
+    private final String label;
+    private final String queryBinding;
 
-    Path baseDirectory = Paths.get("").toAbsolutePath();
+    private Path baseDirectory = Paths.get("").toAbsolutePath();
 
     public JavaValidationFactory (final String label, final String queryBinding, final TransformerFactory transformerFactory, final String[] features, final List<String> compilerSteps)
     {

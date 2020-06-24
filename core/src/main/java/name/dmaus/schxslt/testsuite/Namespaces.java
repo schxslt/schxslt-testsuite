@@ -33,10 +33,17 @@ import javax.xml.XMLConstants;
 
 import javax.xml.namespace.NamespaceContext;
 
-class Namespaces implements NamespaceContext
+/**
+ * Namespace context implementation.
+ *
+ */
+final class Namespaces implements NamespaceContext
 {
-    final Map<String,String> uriByPrefix = new HashMap<String,String>();
-    final Map<String, ArrayList<String>> prefixByUri = new HashMap<String, ArrayList<String>>();
+    private static final String ERROR_NAMESPACEURI_IS_NULL = "Namespace URI must not be null";
+    private static final String ERROR_NAMESPACEPFX_IS_NULL = "Namespace prefix must not be null";
+
+    private final Map<String, String> uriByPrefix = new HashMap<String, String>();
+    private final Map<String, ArrayList<String>> prefixByUri = new HashMap<String, ArrayList<String>>();
 
     Namespaces ()
     {
@@ -47,7 +54,7 @@ class Namespaces implements NamespaceContext
     public String getNamespaceURI (final String prefix)
     {
         if (prefix == null) {
-            throw new IllegalArgumentException("Namespace prefix must not be null");
+            throw new IllegalArgumentException(ERROR_NAMESPACEPFX_IS_NULL);
         }
         if (uriByPrefix.containsKey(prefix)) {
             return uriByPrefix.get(prefix);
@@ -58,7 +65,7 @@ class Namespaces implements NamespaceContext
     public String getPrefix (final String namespaceURI)
     {
         if (namespaceURI == null) {
-            throw new IllegalArgumentException("Namespace URI must not be null");
+            throw new IllegalArgumentException(ERROR_NAMESPACEURI_IS_NULL);
         }
         if (prefixByUri.containsKey(namespaceURI)) {
             return prefixByUri.get(namespaceURI).get(0);
@@ -69,7 +76,7 @@ class Namespaces implements NamespaceContext
     public Iterator getPrefixes (final String namespaceURI)
     {
         if (namespaceURI == null) {
-            throw new IllegalArgumentException("Namespace URI must not be null");
+            throw new IllegalArgumentException(ERROR_NAMESPACEURI_IS_NULL);
         }
         if (prefixByUri.containsValue(namespaceURI)) {
             return prefixByUri.get(namespaceURI).iterator();

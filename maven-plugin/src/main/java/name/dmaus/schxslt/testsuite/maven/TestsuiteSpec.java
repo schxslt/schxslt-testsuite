@@ -33,25 +33,46 @@ import java.io.File;
 
 import java.util.List;
 
-import java.nio.file.Paths;
-
-public class TestsuiteSpec
+/**
+ * Testsuite descriptor.
+ *
+ */
+public final class TestsuiteSpec
 {
     @Parameter(required = true)
-    File directory;
+    private File directory;
 
     @Parameter(required = true)
-    String label;
+    private String label;
 
     @Parameter(required = true)
-    String processorId;
+    private String processorId;
 
     @Parameter(required = false)
-    List<String> skip;
+    private List<String> skip;
 
     Testsuite createTestsuite ()
     {
         return new DirectoryTestsuite(directory.toPath(), label);
     }
 
+    File getDirectory ()
+    {
+        return directory;
+    }
+
+    String getLabel ()
+    {
+        return label;
+    }
+
+    String getProcessorId ()
+    {
+        return processorId;
+    }
+
+    List<String> getSkip ()
+    {
+        return skip;
+    }
 }

@@ -31,6 +31,10 @@ import org.w3c.dom.NodeList;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Provide access to the XML testcase specification.
+ *
+ */
 class TestcaseSpec
 {
 
@@ -44,8 +48,9 @@ class TestcaseSpec
     static final String NAME_SCHEMA = "schema";
     static final String NAME_EXPECTATION = "expectation";
     static final String NAME_EXPECT = "expect";
+    static final String NAME_OPTIONAL = "optional";
 
-    final Document document;
+    private final Document document;
 
     TestcaseSpec (final Document document)
     {
@@ -69,8 +74,8 @@ class TestcaseSpec
 
     boolean isOptional ()
     {
-        if (document.getDocumentElement().hasAttribute("optional")) {
-            String value = document.getDocumentElement().getAttribute("optional");
+        if (document.getDocumentElement().hasAttribute(NAME_OPTIONAL)) {
+            String value = document.getDocumentElement().getAttribute(NAME_OPTIONAL);
             return Boolean.parseBoolean(value);
         }
         return false;

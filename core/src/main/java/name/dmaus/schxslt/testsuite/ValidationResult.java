@@ -24,12 +24,16 @@
 
 package name.dmaus.schxslt.testsuite;
 
+/**
+ * Represents the result of executing a testcase.
+ *
+ */
 public final class ValidationResult
 {
-    final Testcase testcase;
-    final ValidationStatus status;
-    final String errorMessage;
-    final Object report;
+    private final Testcase testcase;
+    private final ValidationStatus status;
+    private final String errorMessage;
+    private final Object report;
 
     ValidationResult (final Testcase testcase, final ValidationStatus status)
     {

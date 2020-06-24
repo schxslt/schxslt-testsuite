@@ -30,9 +30,13 @@ import javax.xml.xpath.XPathExpression;
 
 import org.w3c.dom.Document;
 
-class Expectation
+/**
+ * An additional expectation wrt the validation report.
+ *
+ */
+final class Expectation
 {
-    final XPathExpression expression;
+    private final XPathExpression expression;
 
     Expectation (final XPathExpression expression)
     {

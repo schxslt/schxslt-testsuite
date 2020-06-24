@@ -31,10 +31,15 @@ import java.nio.file.Paths;
 
 import java.util.Arrays;
 
+/**
+ * Commandline application.
+ *
+ */
 public final class Application
 {
     private Application ()
-    {}
+    {
+    }
 
     public static void main (final String[] args) throws Exception
     {

@@ -43,27 +43,25 @@ import java.util.List;
 import java.io.File;
 import java.nio.file.Paths;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.nio.file.Paths;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+/**
+ * Run a schematron testsuite.
+ *
+ */
 @Mojo(name = "test-schematron")
-public class TestSchematronMojo extends AbstractMojo
+public final class TestSchematronMojo extends AbstractMojo
 {
 
     @Parameter(required = false, defaultValue = "${basedir}")
-    String basedir;
+    private String basedir;
 
     @Parameter(required = true)
-    File config;
+    private File config;
 
     @Parameter(required = false)
-    List<TestsuiteSpec> testsuites;
+    private List<TestsuiteSpec> testsuites;
 
     public void execute () throws MojoExecutionException, MojoFailureException
     {
@@ -73,35 +71,23 @@ public class TestSchematronMojo extends AbstractMojo
         for (TestsuiteSpec spec : testsuites) {
             Testsuite testsuite = spec.createTestsuite();
             getLog().info("Running testsuite " + testsuite.getLabel());
-            ValidationFactory factory = (ValidationFactory)ctx.getBean(spec.processorId);
+            ValidationFactory factory = (ValidationFactory)ctx.getBean(spec.getProcessorId());
             factory.setBaseDirectory(Paths.get(basedir));
             Driver driver = new Driver(factory);
             TestsuiteRunner runner;
-            if (spec.skip == null) {
+            if (spec.getSkip() == null) {
                 runner = new TestsuiteRunner(driver);
             } else {
-                runner = new TestsuiteRunner(driver, spec.skip);
+                runner = new TestsuiteRunner(driver, spec.getSkip());
             }
             Report report = runner.run(testsuite);
-            for (ValidationResult result : report.getValidationResults()) {
-                final String msg = String.format("Status: %s Id: %s Label: %s", result.getStatus(), result.getTestcase().getId(), result.getTestcase().getLabel());
-                if (result.getStatus() == ValidationStatus.FAILURE || result.getStatus() == ValidationStatus.ERROR) {
-                    getLog().error(msg);
-                    if (result.getErrorMessage() != null) {
-                        getLog().error(result.getErrorMessage());
-                    }
-                } else if (result.getStatus() == ValidationStatus.SKIPPED) {
-                    getLog().warn(msg);
-                }
-                result.getTestcase().deleteTemporaryFiles();
-            }
+            printReport(report);
             final String msg = String.format("[Passed/Skipped/Failed/Total] = [%d/%d/%d/%d]",
                                              report.countSuccess(),
                                              report.countSkipped(),
                                              report.countFailure() + report.countError(),
                                              report.countTotal()
                                              );
-
             if (report.countFailure() > 0 || report.countError() > 0) {
                 failMojoExecution = true;
                 getLog().error(msg);
@@ -111,6 +97,22 @@ public class TestSchematronMojo extends AbstractMojo
         }
         if (failMojoExecution) {
             throw new MojoFailureException("Some Schematron tests failed");
+        }
+    }
+
+    void printReport (final Report report)
+    {
+        for (ValidationResult result : report.getValidationResults()) {
+            final String msg = String.format("Status: %s Id: %s Label: %s", result.getStatus(), result.getTestcase().getId(), result.getTestcase().getLabel());
+            if (result.getStatus() == ValidationStatus.FAILURE || result.getStatus() == ValidationStatus.ERROR) {
+                getLog().error(msg);
+                if (result.getErrorMessage() != null) {
+                    getLog().error(result.getErrorMessage());
+                }
+            } else if (result.getStatus() == ValidationStatus.SKIPPED) {
+                getLog().warn(msg);
+            }
+            result.getTestcase().deleteTemporaryFiles();
         }
     }
 }

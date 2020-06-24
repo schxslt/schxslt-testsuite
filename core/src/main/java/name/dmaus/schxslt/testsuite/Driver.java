@@ -32,11 +32,15 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 
+/**
+ * Executes a testcase.
+ *
+ */
 public final class Driver
 {
-    final XMLSerializer serializer = new XMLSerializer();
+    private final XMLSerializer serializer = new XMLSerializer();
 
-    ValidationFactory validationFactory;
+    private final ValidationFactory validationFactory;
 
     public Driver (final ValidationFactory validationFactory)
     {
@@ -68,16 +72,7 @@ public final class Driver
                     success = false;
                 }
 
-                List<Expectation> expectations = testcase.getExpectations();
-                report = (Document)validation.getReport();
-                if (!expectations.isEmpty() && report == null) {
-                    throw new ValidationException("Cannot check expectations because there is no report");
-                } else {
-                    serializer.serialize(report, testcase.getReport());
-                    for (Expectation expectation : expectations) {
-                        success = success && expectation.isSatisfied(report);
-                    }
-                }
+                success = success && checkExpectations(testcase, (Document)validation.getReport());
                 if (success) {
                     status = ValidationStatus.SUCCESS;
                 } else {
@@ -92,10 +87,7 @@ public final class Driver
                 status = ValidationStatus.SUCCESS;
             }
             errorMessage = e.getMessage();
-        } catch (XPathExpressionException e) {
-            errorMessage = e.getMessage();
         }
-
         return new ValidationResult(testcase, status, report, errorMessage);
     }
 
@@ -108,4 +100,24 @@ public final class Driver
         }
         return false;
     }
+
+    boolean checkExpectations (final Testcase testcase, final Document report) throws ValidationException
+    {
+        List<Expectation> expectations = testcase.getExpectations();
+        boolean success = true;
+        try {
+            if (!expectations.isEmpty() && report == null) {
+                throw new ValidationException("Cannot check expectations because there is no report");
+            } else {
+                serializer.serialize(report, testcase.getReport());
+                for (Expectation expectation : expectations) {
+                    success = success && expectation.isSatisfied(report);
+                }
+            }
+        } catch (XPathExpressionException e) {
+            throw new ValidationException(e);
+        }
+        return success;
+    }
+
 }
