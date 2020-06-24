@@ -36,7 +36,7 @@ public final class Application
     private Application ()
     {}
 
-    public static void main (final String[] args)
+    public static void main (final String[] args) throws Exception
     {
         Configuration config = new Configuration();
         config.parse(args);
@@ -51,6 +51,27 @@ public final class Application
         } else {
             runner = new TestsuiteRunner(driver, Arrays.asList(config.getSkipTestcaseIds()));
         }
-        runner.run(testsuite);
+        Report report = runner.run(testsuite);
+
+        System.out.println(report.getLabel());
+        System.out.println();
+
+        for (ValidationResult result : report.getValidationResults()) {
+            Testcase testcase = result.getTestcase();
+            System.out.println(String.format("%.8s %s", result.getStatus(), testcase.getLabel()));
+            if (result.getStatus() == ValidationStatus.SUCCESS || result.getStatus() == ValidationStatus.SKIPPED) {
+                testcase.deleteTemporaryFiles();
+            }
+            if (result.getStatus() != ValidationStatus.SUCCESS) {
+                if (result.getErrorMessage() != null) {
+                    System.out.println(String.format("\tmessage: %s", result.getErrorMessage()));
+                }
+                System.out.println(String.format("\tid: %s directory: %s", testcase.getId(), testcase.getTempDirectory()));
+            }
+        }
+
+        System.out.println();
+        System.out.println(String.format("[Passed/Skipped/Failed/Total] = [%d/%d/%d/%d]", report.countSuccess(), report.countSkipped(), report.countFailure() + report.countError(), report.countTotal()));
+        System.out.println();
     }
 }
