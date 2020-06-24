@@ -7,7 +7,7 @@
   <parent>
     <groupId>name.dmaus.schxslt</groupId>
     <artifactId>testsuite-parent</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.6</version>
   </parent>
 
   <artifactId>testsuite-cli</artifactId>
