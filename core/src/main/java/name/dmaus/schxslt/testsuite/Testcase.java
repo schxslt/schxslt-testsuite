@@ -222,13 +222,22 @@ public final class Testcase
         return nsContext;
     }
 
+    void deleteTemporaryFile (final List<Path> filesOrDirectories)
+    {
+        for (Path fileOrDirectory : filesOrDirectories) {
+            deleteTemporaryFile(fileOrDirectory);
+        }
+    }
+
     void deleteTemporaryFile (final Path fileOrDirectory)
     {
-        Path current = fileOrDirectory;
-        do {
-            DeleteTemporaryFiles.add(current);
-            current = current.getParent();
-        } while (current != null && !current.equals(tempDirectory));
+        if (fileOrDirectory != null) {
+            Path current = fileOrDirectory;
+            do {
+                DeleteTemporaryFiles.add(current);
+                current = current.getParent();
+            } while (current != null && !current.equals(tempDirectory));
+        }
     }
 
     void collectNamespaceDecls (final Namespaces nsContext, final Node node)
