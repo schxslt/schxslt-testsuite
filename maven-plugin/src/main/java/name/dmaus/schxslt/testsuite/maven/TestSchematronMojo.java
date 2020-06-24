@@ -93,6 +93,7 @@ public class TestSchematronMojo extends AbstractMojo
                 } else if (result.getStatus() == ValidationStatus.SKIPPED) {
                     getLog().warn(msg);
                 }
+                result.getTestcase().deleteTemporaryFiles();
             }
             final String msg = String.format("[Passed/Skipped/Failed/Total] = [%d/%d/%d/%d]",
                                              report.countSuccess(),
