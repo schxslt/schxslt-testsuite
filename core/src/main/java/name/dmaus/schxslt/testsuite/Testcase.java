@@ -83,6 +83,11 @@ public final class Testcase
         return report;
     }
 
+    Path getTempDirectory ()
+    {
+        return tempDirectory;
+    }
+
     String getPhase ()
     {
         return spec.getPhase();
