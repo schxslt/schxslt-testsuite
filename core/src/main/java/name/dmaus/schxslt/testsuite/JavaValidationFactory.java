@@ -41,7 +41,7 @@ public final class JavaValidationFactory implements ValidationFactory
     final String label;
     final String queryBinding;
 
-    Path baseDirectory;
+    Path baseDirectory = Paths.get("").toAbsolutePath();
 
     public JavaValidationFactory (final String label, final String queryBinding, final TransformerFactory transformerFactory, final String[] features, final List<String> compilerSteps)
     {

@@ -39,7 +39,7 @@ class CommandlineValidationFactory implements ValidationFactory
     final String label;
     final String queryBinding;
 
-    Path baseDirectory;
+    Path baseDirectory = Paths.get("").toAbsolutePath();
 
     CommandlineValidationFactory (final String label, final String queryBinding, final CommandlineBuilder commandlineBuilder, final String[] features, final List<String> compilerSteps)
     {
