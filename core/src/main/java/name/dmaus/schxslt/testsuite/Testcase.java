@@ -57,6 +57,7 @@ public final class Testcase
 
     Path report;
     Path tempDirectory;
+    List<Path> secondary = new ArrayList<Path>();
 
     Testcase (final TestcaseSpec spec)
     {
@@ -155,24 +156,17 @@ public final class Testcase
         try {
 
             tempDirectory = Files.createTempDirectory("testsuite-ng.").toAbsolutePath();
-            deleteTemporaryFile(tempDirectory);
-
             schema = Files.createTempFile(tempDirectory, "schema", ".sch");
-            deleteTemporaryFile(schema);
-
             report = Files.createTempFile(tempDirectory, "report", ".xml");
-            deleteTemporaryFile(report);
 
             serializer.serialize(spec.getSchema(queryBindingStr), schema);
 
             document = serialize(tempDirectory, spec.getPrimaryDocument());
-            deleteTemporaryFile(document);
 
             NodeList documents = spec.getSecondaryDocuments();
             for (int i = 0; i < documents.getLength(); i++) {
                 Element documentWrap = (Element)documents.item(i);
-                Path secondary = serialize(tempDirectory, documentWrap);
-                deleteTemporaryFile(secondary);
+                secondary.add(serialize(tempDirectory, documentWrap));
             }
 
             queryBinding = queryBindingStr;
@@ -180,6 +174,15 @@ public final class Testcase
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void deleteTemporaryFiles ()
+    {
+        deleteTemporaryFile(tempDirectory);
+        deleteTemporaryFile(schema);
+        deleteTemporaryFile(report);
+        deleteTemporaryFile(document);
+        deleteTemporaryFile(secondary);
     }
 
     Path serialize (final Path directory, final Element documentWrap) throws IOException
