@@ -6,7 +6,7 @@
 
   <groupId>name.dmaus.schxslt</groupId>
   <artifactId>testsuite-parent</artifactId>
-  <version>1.5</version>
+  <version>1.5-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>SchXslt Testsuite Parent</name>
@@ -70,7 +70,7 @@
 
   <modules>
     <module>core</module>
-    <!-- <module>cli</module> -->
+    <module>cli</module>
     <module>maven-plugin</module>
   </modules>
 
