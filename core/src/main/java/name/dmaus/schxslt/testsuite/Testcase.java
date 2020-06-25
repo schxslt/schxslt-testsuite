@@ -238,12 +238,10 @@ public final class Testcase
 
     void deleteTemporaryFile (final Path fileOrDirectory)
     {
-        if (fileOrDirectory != null) {
-            Path current = fileOrDirectory;
-            do {
-                DeleteTemporaryFiles.add(current);
-                current = current.getParent();
-            } while (current != null && !current.equals(tempDirectory));
+        Path current = fileOrDirectory;
+        while (current != null && !current.equals(tempDirectory)) {
+            DeleteTemporaryFiles.add(current);
+            current = current.getParent();
         }
     }
 
