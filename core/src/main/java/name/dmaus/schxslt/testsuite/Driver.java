@@ -73,7 +73,9 @@ public final class Driver
                 }
 
                 success = success && checkExpectations(testcase, (Document)validation.getReport());
-                if (success) {
+                if (testcase.isExpectError()) {
+                    status = ValidationStatus.FAILURE;
+                } else if (success) {
                     status = ValidationStatus.SUCCESS;
                 } else {
                     status = ValidationStatus.FAILURE;
