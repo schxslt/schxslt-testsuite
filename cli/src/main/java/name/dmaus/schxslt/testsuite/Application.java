@@ -78,5 +78,8 @@ public final class Application
         System.out.println();
         System.out.println(String.format("[Passed/Skipped/Failed/Total] = [%d/%d/%d/%d]", report.countSuccess(), report.countSkipped(), report.countFailure() + report.countError(), report.countTotal()));
         System.out.println();
+        if (report.countFailure() > 0 || report.countError() > 0) {
+            System.exit(1);
+        }
     }
 }
