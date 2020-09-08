@@ -53,42 +53,48 @@ public final class Driver
         String errorMessage = null;
         Document report = null;
 
-        try {
-            Validation validation = validationFactory.newInstance();
+        if (validationFactory.isAvailable()) {
 
-            if (isFeatureMatch(validation, testcase)) {
-                testcase.populate(validationFactory.getQueryBinding());
+            try {
+                Validation validation = validationFactory.newInstance();
 
-                validation.setSchema(testcase.getSchema());
-                validation.setDocument(testcase.getDocument());
-                validation.setPhase(testcase.getPhase());
+                if (isFeatureMatch(validation, testcase)) {
+                    testcase.populate(validationFactory.getQueryBinding());
 
-                boolean success;
+                    validation.setSchema(testcase.getSchema());
+                    validation.setDocument(testcase.getDocument());
+                    validation.setPhase(testcase.getPhase());
 
-                validation.execute();
-                if (validation.isValid() == testcase.isExpectValid()) {
-                    success = true;
+                    boolean success;
+
+                    validation.execute();
+                    if (validation.isValid() == testcase.isExpectValid()) {
+                        success = true;
+                    } else {
+                        success = false;
+                    }
+
+                    success = success && checkExpectations(testcase, (Document)validation.getReport());
+                    if (testcase.isExpectError()) {
+                        status = ValidationStatus.FAILURE;
+                    } else if (success) {
+                        status = ValidationStatus.SUCCESS;
+                    } else {
+                        status = ValidationStatus.FAILURE;
+                    }
                 } else {
-                    success = false;
+                    status = ValidationStatus.SKIPPED;
+                    errorMessage = String.format("Required features not supported: %s", testcase.getFeatures());
                 }
-
-                success = success && checkExpectations(testcase, (Document)validation.getReport());
+            } catch (ValidationException e) {
                 if (testcase.isExpectError()) {
-                    status = ValidationStatus.FAILURE;
-                } else if (success) {
                     status = ValidationStatus.SUCCESS;
-                } else {
-                    status = ValidationStatus.FAILURE;
                 }
-            } else {
-                status = ValidationStatus.SKIPPED;
-                errorMessage = String.format("Required features not supported: %s", testcase.getFeatures());
+                errorMessage = e.getMessage();
             }
-        } catch (ValidationException e) {
-            if (testcase.isExpectError()) {
-                status = ValidationStatus.SUCCESS;
-            }
-            errorMessage = e.getMessage();
+        } else {
+            errorMessage = "Validation not available";
+            status = ValidationStatus.SKIPPED;
         }
         return new ValidationResult(testcase, status, report, errorMessage);
     }
