@@ -73,5 +73,6 @@ abstract class CommandlineBuilder
     }
 
     abstract String[] build ();
+    abstract String[] buildIsAvailableCommand ();
 
 }

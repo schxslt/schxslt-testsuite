@@ -71,6 +71,11 @@ public final class JavaValidationFactory implements ValidationFactory
         return queryBinding;
     }
 
+    public boolean isAvailable ()
+    {
+        return true;
+    }
+
     public JavaValidation newInstance ()
     {
         List<Path> steps = new ArrayList<Path>();

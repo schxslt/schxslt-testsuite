@@ -25,6 +25,7 @@
 package name.dmaus.schxslt.testsuite;
 
 import java.nio.file.Paths;
+import java.io.IOException;
 import java.nio.file.Path;
 
 import java.util.List;
@@ -67,6 +68,23 @@ final class CommandlineValidationFactory implements ValidationFactory
     public String getQueryBinding ()
     {
         return queryBinding;
+    }
+
+    public boolean isAvailable ()
+    {
+        String[] command = commandlineBuilder.buildIsAvailableCommand();
+
+        int exitcode;
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process process = runtime.exec(command);
+            if (process.waitFor() == 0) {
+                return true;
+            }
+        } catch (InterruptedException | IOException e) {
+            return false;
+        }
+        return false;
     }
 
     public CommandlineValidation newInstance ()

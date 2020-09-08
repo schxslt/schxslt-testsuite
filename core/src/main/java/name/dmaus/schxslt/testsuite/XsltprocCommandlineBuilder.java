@@ -33,6 +33,8 @@ import java.util.ArrayList;
  */
 final class XsltprocCommandlineBuilder extends CommandlineBuilder
 {
+    final private static String[] isAvailableCommand = { "xsltproc", "--version" };
+
     String[] build ()
     {
         ArrayList<String> commands = new ArrayList<String>();
@@ -51,5 +53,10 @@ final class XsltprocCommandlineBuilder extends CommandlineBuilder
         commands.add(stylesheet.toAbsolutePath().toString());
         commands.add(document.toAbsolutePath().toString());
         return commands.toArray(new String[0]);
+    }
+
+    public String[] buildIsAvailableCommand ()
+    {
+        return isAvailableCommand;
     }
 }
