@@ -114,11 +114,6 @@ public final class JavaValidation implements Validation
         return report;
     }
 
-    public boolean isAvailable ()
-    {
-        return true;
-    }
-
     public boolean isValid ()
     {
         NodeList asserts = report.getElementsByTagNameNS(NSSVRL, "failed-assert");

@@ -66,13 +66,6 @@ public interface Validation
     Set<String> getFeatures ();
 
     /**
-     * Return true if validation is available.
-     *
-     * @return True if validation is available, otherwise false
-     */
-    boolean isAvailable ();
-
-    /**
      * Return true if the document is valid.
      *
      * @return True if the document is valid, otherwise false.

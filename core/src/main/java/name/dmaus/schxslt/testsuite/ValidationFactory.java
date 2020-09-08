@@ -39,5 +39,7 @@ public interface ValidationFactory
 
     String getQueryBinding ();
 
+    boolean isAvailable ();
+
     Validation newInstance ();
 }
