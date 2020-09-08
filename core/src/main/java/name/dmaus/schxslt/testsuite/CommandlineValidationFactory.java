@@ -74,7 +74,6 @@ final class CommandlineValidationFactory implements ValidationFactory
     {
         String[] command = commandlineBuilder.buildIsAvailableCommand();
 
-        int exitcode;
         Runtime runtime = Runtime.getRuntime();
         try {
             Process process = runtime.exec(command);
