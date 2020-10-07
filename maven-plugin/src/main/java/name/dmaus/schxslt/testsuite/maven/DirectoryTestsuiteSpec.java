@@ -28,6 +28,7 @@ import name.dmaus.schxslt.testsuite.Testsuite;
 import name.dmaus.schxslt.testsuite.DirectoryTestsuite;
 
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugin.MojoExecutionException;
 
 import java.io.File;
 
@@ -51,7 +52,7 @@ public final class DirectoryTestsuiteSpec implements TestsuiteSpec
     @Parameter(required = false)
     private List<String> skip;
 
-    public Testsuite createTestsuite ()
+    public Testsuite createTestsuite () throws MojoExecutionException
     {
         return new DirectoryTestsuite(directory.toPath(), label);
     }

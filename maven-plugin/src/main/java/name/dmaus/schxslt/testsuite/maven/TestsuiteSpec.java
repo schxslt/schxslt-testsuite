@@ -28,10 +28,12 @@ import java.util.List;
 
 import name.dmaus.schxslt.testsuite.Testsuite;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 interface TestsuiteSpec
 {
     public String getLabel ();
     public List<String> getSkip ();
-    public Testsuite createTestsuite ();
+    public Testsuite createTestsuite () throws MojoExecutionException;
     public String getProcessorId ();
 }
