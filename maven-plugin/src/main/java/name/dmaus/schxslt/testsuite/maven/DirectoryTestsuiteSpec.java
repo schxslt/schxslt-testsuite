@@ -24,14 +24,55 @@
 
 package name.dmaus.schxslt.testsuite.maven;
 
+import name.dmaus.schxslt.testsuite.Testsuite;
+import name.dmaus.schxslt.testsuite.DirectoryTestsuite;
+
+import org.apache.maven.plugins.annotations.Parameter;
+
+import java.io.File;
+
 import java.util.List;
 
-import name.dmaus.schxslt.testsuite.Testsuite;
-
-interface TestsuiteSpec
+/**
+ * Directory based Testsuite descriptor.
+ *
+ */
+public final class DirectoryTestsuiteSpec implements TestsuiteSpec
 {
-    public String getLabel ();
-    public List<String> getSkip ();
-    public Testsuite createTestsuite ();
-    public String getProcessorId ();
+    @Parameter(required = true)
+    private File directory;
+
+    @Parameter(required = true)
+    private String label;
+
+    @Parameter(required = true)
+    private String processorId;
+
+    @Parameter(required = false)
+    private List<String> skip;
+
+    public Testsuite createTestsuite ()
+    {
+        return new DirectoryTestsuite(directory.toPath(), label);
+    }
+
+    File getDirectory ()
+    {
+        return directory;
+    }
+
+    public String getLabel ()
+    {
+        return label;
+    }
+
+    public String getProcessorId ()
+    {
+        return processorId;
+    }
+
+    public List<String> getSkip ()
+    {
+        return skip;
+    }
 }
