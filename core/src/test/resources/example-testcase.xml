@@ -1,0 +1,26 @@
+<testcase xmlns="https://doi.org/10.5281/zenodo.5679629#" expect="invalid">
+  <title>Context node is an element node</title>
+  <schemas>
+    <sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+      <sch:pattern>
+        <sch:rule context="root">
+          <sch:assert test="false()"/>
+        </sch:rule>
+      </sch:pattern>
+    </sch:schema>
+  </schemas>
+  <documents>
+    <document filename="document.xml">
+      <root>
+        <!-- Comment -->
+        <child/>
+      </root>
+    </document>
+    <document filename="subdir/document.xml">
+      <root/>
+    </document>
+  </documents>
+  <parameters>
+    <parameter name="foo" value="bar"/>
+  </parameters>
+</testcase>
