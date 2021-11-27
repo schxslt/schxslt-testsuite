@@ -88,7 +88,7 @@ final class XsltValidator implements Validator
         return new ValidationResult(status, report);
     }
 
-    private Transformer compile (final Path schema)
+    private Transformer compile (final Path schema) throws TransformerException
     {
         try {
             Source source = new StreamSource(Files.newInputStream(schema), schema.toString());
@@ -100,7 +100,7 @@ final class XsltValidator implements Validator
                 source = new DOMSource(result.getNode(), result.getSystemId());
             }
             return transformerFactory.newTransformer(source);
-        } catch (TransformerException | IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Unable to compile schema to XSLT", e);
         }
     }
