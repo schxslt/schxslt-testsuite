@@ -78,11 +78,16 @@ public final class Application
         Testsuite testsuite = new Testsuite(title, testcases, validator, queryBinding);
         TestsuiteRunner runner = new TestsuiteRunner(populator);
 
-        TestsuiteResult result = runner.run(testsuite);
+        final TestsuiteResult result = runner.run(testsuite);
+
+        System.out.println();
+        System.out.println(testsuite.getTitle());
+        System.out.println();
 
         int pass = 0;
         int fail = 0;
         int skip = 0;
+
         for (TestcaseResult tcResult : result.getResults()) {
             switch (tcResult.getStatus()) {
             case PASS:
@@ -97,11 +102,11 @@ public final class Application
             default:
                 break;
             }
-            String msg = String.format("%s %s", tcResult.getStatus(), tcResult.getTestcase().getTitle());
+            String msg = String.format("  %s\t%s", tcResult.getStatus(), tcResult.getTestcase().getTitle());
             System.out.println(msg);
         }
 
-        String msg = String.format("[pass/fail/skip] = [%d/%d/%d]", pass, fail, skip);
+        String msg = String.format("%n%d tests, %d failures, %d skipped%n", pass + fail + skip, fail, skip);
         System.out.println(msg);
 
         if (fail == 0) {
