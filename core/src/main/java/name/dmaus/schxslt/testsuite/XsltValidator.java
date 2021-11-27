@@ -62,7 +62,7 @@ final class XsltValidator implements Validator
     {
         try {
             Transformer transpiler = compile(schema);
-            Source source = new StreamSource(Files.newInputStream(document));
+            Source source = new StreamSource(Files.newInputStream(document), document.toUri().toString());
             DOMResult result = new DOMResult();
 
             transpiler.transform(source, result);
