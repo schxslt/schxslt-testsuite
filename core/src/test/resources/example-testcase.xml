@@ -11,7 +11,7 @@
   </schemas>
   <documents>
     <document filename="document.xml">
-      <root>
+      <root xmlns="">
         <!-- Comment -->
         <child/>
       </root>
@@ -23,4 +23,7 @@
   <parameters>
     <parameter name="foo" value="bar"/>
   </parameters>
+  <assertions xmlns:svrl="http://purl.oclc.org/dsdl/svrl">
+    <assertion assert="/svrl:schematron-output"/>
+  </assertions>
 </testcase>

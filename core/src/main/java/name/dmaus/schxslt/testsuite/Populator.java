@@ -27,8 +27,13 @@ package name.dmaus.schxslt.testsuite;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -42,6 +47,7 @@ public final class Populator
 {
     private static final String QUERYBINDING_NAME = "queryBinding";
 
+    private final XPathFactory xpathFactory = XPathFactory.newInstance();
     private final Serializer serializer = new Serializer();
     private final Path targetDirectory;
 
@@ -68,14 +74,35 @@ public final class Populator
                 }
             }
 
-            return new PopulatedTestcase(testcase.getTitle(), testcase.getExpectedValidationResultStatus(), schema, document);
-        } catch (IOException e) {
+            List<Assertion> assertions = compileAssertions(testcase.getAssertions());
+
+            return new PopulatedTestcase(testcase.getTitle(), testcase.getExpectedValidationResultStatus(), schema, document, assertions);
+        } catch (IOException | XPathExpressionException e) {
             throw new RuntimeException("Unable to populate testcase to filesystem", e);
         }
     }
 
+    private List<Assertion> compileAssertions (final List<Element> elements) throws XPathExpressionException
+    {
+        List<Assertion> assertions = new ArrayList<Assertion>();
+        for (Element element : elements) {
+            XPath compiler = xpathFactory.newXPath();
+            compiler.setNamespaceContext(new Namespaces(element));
+            XPathExpression expression = compiler.compile(element.getAttribute("assert"));
+            assertions.add(new Assertion(expression));
+        }
+        return assertions;
+    }
+
     private void serialize (final Path filename, final Element element, final boolean isWrapper) throws IOException
     {
+        Path parent = filename.getParent();
+        if (parent != null) {
+            if (!Files.exists(parent)) {
+                Files.createDirectories(parent);
+            }
+        }
+
         DocumentFragment document = element.getOwnerDocument().createDocumentFragment();
         if (isWrapper) {
             NodeList nodes = element.getChildNodes();

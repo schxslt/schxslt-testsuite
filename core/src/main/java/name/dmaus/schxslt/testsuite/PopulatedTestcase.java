@@ -25,6 +25,7 @@
 package name.dmaus.schxslt.testsuite;
 
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  * A testcase populated to filesystem.
@@ -33,14 +34,16 @@ public final class PopulatedTestcase
 {
     private final ValidationResult.Status expectedValidationResultStatus;
     private final String title;
+    private final List<Assertion> assertions;
     private final Path document;
     private final Path schema;
 
-    PopulatedTestcase (final String title, final ValidationResult.Status expectedValidationResultStatus, final Path schema, final Path document)
+    PopulatedTestcase (final String title, final ValidationResult.Status expectedValidationResultStatus, final Path schema, final Path document, final List<Assertion> assertions)
     {
         this.title = title;
         this.schema = schema;
         this.document = document;
+        this.assertions = assertions;
         this.expectedValidationResultStatus = expectedValidationResultStatus;
     }
 
@@ -52,6 +55,11 @@ public final class PopulatedTestcase
     ValidationResult.Status getExpectedValidationResultStatus ()
     {
         return expectedValidationResultStatus;
+    }
+
+    List<Assertion> getAssertions ()
+    {
+        return assertions;
     }
 
     Path getSchema ()

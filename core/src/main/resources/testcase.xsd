@@ -39,6 +39,17 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="assertions" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence minOccurs="1" maxOccurs="1">
+              <xs:element name="assertion" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="assert" use="required" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:sequence>
       <xs:attribute name="expect" use="required">
         <xs:simpleType>

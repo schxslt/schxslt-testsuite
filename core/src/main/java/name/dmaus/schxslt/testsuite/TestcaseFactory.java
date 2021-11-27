@@ -74,10 +74,11 @@ public final class TestcaseFactory
 
             List<Element> schemas = getElementsByTagNameNS(document, "http://purl.oclc.org/dsdl/schematron", "schema");
             List<Element> documents = getElementsByTagNameNS(document, NAMESPACE_URI, "document");
+            List<Element> assertions = getElementsByTagNameNS(document, NAMESPACE_URI, "assertion");
             String title = getElementsByTagNameNS(document, NAMESPACE_URI, "title").get(0).getTextContent();
             String expect = document.getDocumentElement().getAttribute("expect").toUpperCase(Locale.ROOT);
 
-            return new Testcase(title, ValidationResult.Status.valueOf(expect), schemas, documents);
+            return new Testcase(title, ValidationResult.Status.valueOf(expect), schemas, documents, assertions);
 
         } catch (ParserConfigurationException e) {
             throw new RuntimeException("Unable to create instance of XML parser", e);

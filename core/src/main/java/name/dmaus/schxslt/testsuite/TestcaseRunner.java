@@ -24,6 +24,8 @@
 
 package name.dmaus.schxslt.testsuite;
 
+import javax.xml.xpath.XPathExpressionException;
+
 /**
  * Run a single testcase.
  */
@@ -42,11 +44,29 @@ final class TestcaseRunner
     {
         PopulatedTestcase populatedTestcase = populator.populate(testcase, queryBinding);
         ValidationResult validationResult = validator.validate(populatedTestcase.getDocument(), populatedTestcase.getSchema());
+
         TestcaseResult.Status status;
         if (populatedTestcase.getExpectedValidationResultStatus().equals(validationResult.getStatus())) {
             status = TestcaseResult.Status.PASS;
         } else {
             status = TestcaseResult.Status.FAIL;
+        }
+
+        if (status.equals(TestcaseResult.Status.PASS) && populatedTestcase.getAssertions().size() > 0) {
+            if (validationResult.hasReport()) {
+                try {
+                    for (Assertion assertion : populatedTestcase.getAssertions()) {
+                        if (!assertion.test(validationResult.getReport())) {
+                            status = TestcaseResult.Status.FAIL;
+                            break;
+                        }
+                    }
+                } catch (XPathExpressionException e) {
+                    status = TestcaseResult.Status.FAIL;
+                }
+            } else {
+                status = TestcaseResult.Status.FAIL;
+            }
         }
         return new TestcaseResult(status, populatedTestcase, validationResult);
     }

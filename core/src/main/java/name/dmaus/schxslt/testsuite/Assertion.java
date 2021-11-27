@@ -24,53 +24,27 @@
 
 package name.dmaus.schxslt.testsuite;
 
-import java.util.List;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 
-import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
- * Testcase specification.
+ * An XPath expression acting as an assertion over a document.
  */
-public final class Testcase
+final class Assertion
 {
-    private final String title;
-    private final List<Element> assertions;
-    private final List<Element> documents;
-    private final List<Element> schemas;
-    private final ValidationResult.Status expectedValidationResultStatus;
+    private final XPathExpression expression;
 
-    Testcase (final String title, final ValidationResult.Status expectedValidationResultStatus, final List<Element> schemas, final List<Element> documents, final List<Element> assertions)
+    Assertion (final XPathExpression expression)
     {
-        this.title = title;
-        this.schemas = schemas;
-        this.documents = documents;
-        this.assertions = assertions;
-        this.expectedValidationResultStatus = expectedValidationResultStatus;
+        this.expression = expression;
     }
 
-    ValidationResult.Status getExpectedValidationResultStatus ()
+    boolean test (final Node node) throws XPathExpressionException
     {
-        return expectedValidationResultStatus;
+        Boolean result = (Boolean)expression.evaluate(node, XPathConstants.BOOLEAN);
+        return result.booleanValue();
     }
-
-    String getTitle ()
-    {
-        return title;
-    }
-
-    List<Element> getAssertions ()
-    {
-        return assertions;
-    }
-
-    List<Element> getDocuments ()
-    {
-        return documents;
-    }
-
-    List<Element> getSchemas ()
-    {
-        return schemas;
-    }
-
 }
