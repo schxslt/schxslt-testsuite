@@ -54,7 +54,7 @@ public final class Testsuite
         return queryBinding;
     }
 
-    String getTitle ()
+    public String getTitle ()
     {
         return title;
     }
