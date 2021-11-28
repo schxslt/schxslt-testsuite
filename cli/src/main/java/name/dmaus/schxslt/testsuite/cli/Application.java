@@ -44,8 +44,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.jimfs.Jimfs;
-
+import org.apache.commons.io.FileUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -58,7 +57,7 @@ public final class Application
     {
     }
 
-    public static void main (final String[] args)
+    public static void main (final String[] args) throws Exception
     {
         Configuration config = new Configuration();
         if (!config.parse(args)) {
@@ -67,7 +66,7 @@ public final class Application
 
         ApplicationContext ctx = new FileSystemXmlApplicationContext(config.getConfig());
 
-        Path tempdir = Jimfs.newFileSystem().getPath("/");
+        Path tempdir = Files.createTempDirectory(Application.class.getName() + "-");
         Populator populator = new Populator(tempdir);
 
         String title = config.getTitle();
@@ -80,8 +79,17 @@ public final class Application
 
         final TestsuiteResult result = runner.run(testsuite);
 
+        printResult(result);
+
+        FileUtils.deleteDirectory(tempdir.toFile());
+
+        System.exit(0);
+    }
+
+    private static void printResult (final TestsuiteResult result)
+    {
         System.out.println();
-        System.out.println(testsuite.getTitle());
+        System.out.println(result.getTestsuite().getTitle());
         System.out.println();
 
         int pass = 0;
@@ -108,12 +116,6 @@ public final class Application
 
         String msg = String.format("%n%d tests, %d failures, %d skipped%n", pass + fail + skip, fail, skip);
         System.out.println(msg);
-
-        if (fail == 0) {
-            System.exit(0);
-        } else {
-            System.exit(1);
-        }
     }
 
     private static List<Testcase> collectTestcases (final String basedir)
