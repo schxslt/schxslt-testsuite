@@ -40,7 +40,7 @@ public final class TestsuiteResult
         this.results = results;
     }
 
-    Testsuite getTestsuite ()
+    public Testsuite getTestsuite ()
     {
         return testsuite;
     }
