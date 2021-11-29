@@ -25,24 +25,16 @@
 package name.dmaus.schxslt.testsuite.cli;
 
 import name.dmaus.schxslt.testsuite.Populator;
-import name.dmaus.schxslt.testsuite.Testcase;
-import name.dmaus.schxslt.testsuite.TestcaseFactory;
 import name.dmaus.schxslt.testsuite.TestcaseResult;
 import name.dmaus.schxslt.testsuite.Testsuite;
+import name.dmaus.schxslt.testsuite.TestsuiteFactory;
 import name.dmaus.schxslt.testsuite.TestsuiteResult;
 import name.dmaus.schxslt.testsuite.TestsuiteRunner;
 import name.dmaus.schxslt.testsuite.Validator;
 
-import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.context.ApplicationContext;
@@ -69,15 +61,14 @@ public final class Application
         Path tempdir = Files.createTempDirectory(Application.class.getName() + "-");
         Populator populator = new Populator(tempdir);
 
-        String title = config.getTitle();
-        String queryBinding = config.getQueryBinding();
         Validator validator = (Validator)ctx.getBean(config.getValidator());
-        List<Testcase> testcases = collectTestcases(config.getDirectory());
 
-        Testsuite testsuite = new Testsuite(title, testcases, validator, queryBinding);
+        TestsuiteFactory testsuiteFactory = new TestsuiteFactory(validator);
+        Testsuite testsuite = testsuiteFactory.newInstance(Paths.get(config.getTestsuite()));
+
         TestsuiteRunner runner = new TestsuiteRunner(populator);
 
-        final TestsuiteResult result = runner.run(testsuite);
+        TestsuiteResult result = runner.run(testsuite);
 
         printResult(result);
 
@@ -116,26 +107,5 @@ public final class Application
 
         String msg = String.format("%n%d tests, %d failures, %d skipped%n", pass + fail + skip, fail, skip);
         System.out.println(msg);
-    }
-
-    private static List<Testcase> collectTestcases (final String basedir)
-    {
-        TestcaseFactory testcaseFactory = new TestcaseFactory();
-        List<Testcase> testcases = new ArrayList<Testcase>();
-        FileVisitor<Path> visitor = new SimpleFileVisitor<Path>() {
-                public FileVisitResult visitFile (final Path file, final BasicFileAttributes attrs) throws IOException
-                {
-                    if (attrs.isRegularFile() && file.toString().endsWith(".xml")) {
-                        testcases.add(testcaseFactory.newInstance(file));
-                    }
-                    return FileVisitResult.CONTINUE;
-                }
-            };
-        try {
-            Files.walkFileTree(Paths.get(basedir), visitor);
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to iterate testcase files", e);
-        }
-        return testcases;
     }
 }
