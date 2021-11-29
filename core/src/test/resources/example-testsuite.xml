@@ -1,0 +1,4 @@
+<testsuite xmlns="https://doi.org/10.5281/zenodo.5679629#" queryBinding="xslt2">
+  <title>XSLT 2.0</title>
+  <testcase href="example-testcase.xml"/>
+</testsuite>
