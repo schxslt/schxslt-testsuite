@@ -36,8 +36,10 @@ import org.apache.commons.cli.ParseException;
 final class Configuration
 {
     private static final String OPTION_CONFIG_SHORT = "c";
-    private static final String OPTION_TESTSUITE_SHORT = "t";
+    private static final String OPTION_DIRECTORY_SHORT = "d";
+    private static final String OPTION_TITLE_SHORT = "t";
     private static final String OPTION_VALIDATOR_SHORT = "v";
+    private static final String OPTION_QUERYBINDING_SHORT = "q";
 
     private final DefaultParser parser = new DefaultParser();
     private final Options options = new Options();
@@ -47,8 +49,10 @@ final class Configuration
     Configuration ()
     {
         options.addRequiredOption(OPTION_CONFIG_SHORT, "config", true, "Spring Beans configuration file");
-        options.addRequiredOption(OPTION_TESTSUITE_SHORT, "testsuite", true, "Path to testsuite specification");
+        options.addRequiredOption(OPTION_TITLE_SHORT, "title", true, "Testsuite title");
+        options.addRequiredOption(OPTION_DIRECTORY_SHORT, "directory", true, "Directory with testcase files");
         options.addRequiredOption(OPTION_VALIDATOR_SHORT, "validator", true, "Name of Spring Bean implementing Validator");
+        options.addRequiredOption(OPTION_QUERYBINDING_SHORT, "queryBinding", true, "Query language binding");
     }
 
     boolean parse (final String[] args)
@@ -68,14 +72,24 @@ final class Configuration
         return arguments.getOptionValue(OPTION_VALIDATOR_SHORT);
     }
 
+    String getQueryBinding ()
+    {
+        return arguments.getOptionValue(OPTION_QUERYBINDING_SHORT);
+    }
+
+    String getDirectory ()
+    {
+        return arguments.getOptionValue(OPTION_DIRECTORY_SHORT);
+    }
+
     String getConfig ()
     {
         return arguments.getOptionValue(OPTION_CONFIG_SHORT);
     }
 
-    String getTestsuite ()
+    String getTitle ()
     {
-        return arguments.getOptionValue(OPTION_TESTSUITE_SHORT);
+        return arguments.getOptionValue(OPTION_TITLE_SHORT);
     }
 
     void printHelp ()
