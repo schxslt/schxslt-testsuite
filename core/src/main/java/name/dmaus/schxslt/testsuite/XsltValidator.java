@@ -97,7 +97,7 @@ final class XsltValidator implements Validator
                 configureTransformer(transformer, options);
                 DOMResult result = new DOMResult();
                 transformer.transform(source, result);
-                source = new DOMSource(result.getNode(), result.getSystemId());
+                source = new DOMSource(result.getNode(), schema.toUri().toString());
             }
             return transformerFactory.newTransformer(source);
         } catch (IOException e) {
