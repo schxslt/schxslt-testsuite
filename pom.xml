@@ -46,12 +46,29 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <spring.version>5.2.18.RELEASE</spring.version>
     <checkstyle.config.location>config/checkstyle.xml</checkstyle.config.location>
     <checkstyle.suppressions.location>config/checkstyle-suppress.xml</checkstyle.suppressions.location>
   </properties>
 
   <dependencyManagement>
-    <dependencies/>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+    </dependencies>
   </dependencyManagement>
 
   <build>
@@ -76,6 +93,7 @@
   <modules>
     <module>core</module>
     <module>cli</module>
+    <module>maven-plugin</module>
   </modules>
 
   <distributionManagement>
