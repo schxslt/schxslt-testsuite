@@ -24,24 +24,21 @@
 
 package name.dmaus.schxslt.testsuite.cli;
 
+
+import name.dmaus.schxslt.testsuite.DirectoryTestcaseProvider;
 import name.dmaus.schxslt.testsuite.Populator;
 import name.dmaus.schxslt.testsuite.Testcase;
-import name.dmaus.schxslt.testsuite.TestcaseFactory;
 import name.dmaus.schxslt.testsuite.TestcaseResult;
+import name.dmaus.schxslt.testsuite.TestcaseProvider;
 import name.dmaus.schxslt.testsuite.Testsuite;
 import name.dmaus.schxslt.testsuite.TestsuiteResult;
 import name.dmaus.schxslt.testsuite.TestsuiteRunner;
 import name.dmaus.schxslt.testsuite.Validator;
 
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -118,24 +115,9 @@ public final class Application
         System.out.println(msg);
     }
 
-    private static List<Testcase> collectTestcases (final String basedir)
+    private static List<Testcase> collectTestcases (final String basedir) throws IOException
     {
-        TestcaseFactory testcaseFactory = new TestcaseFactory();
-        List<Testcase> testcases = new ArrayList<Testcase>();
-        FileVisitor<Path> visitor = new SimpleFileVisitor<Path>() {
-                public FileVisitResult visitFile (final Path file, final BasicFileAttributes attrs) throws IOException
-                {
-                    if (attrs.isRegularFile() && file.toString().endsWith(".xml")) {
-                        testcases.add(testcaseFactory.newInstance(file));
-                    }
-                    return FileVisitResult.CONTINUE;
-                }
-            };
-        try {
-            Files.walkFileTree(Paths.get(basedir), visitor);
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to iterate testcase files", e);
-        }
-        return testcases;
+        TestcaseProvider provider = new DirectoryTestcaseProvider(Paths.get(basedir));
+        return provider.getTestcases();
     }
 }
