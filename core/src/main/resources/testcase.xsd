@@ -60,6 +60,11 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
+      <xs:attribute name="queryBinding" use="required" type="xs:NMTOKENS">
+        <xs:annotation>
+          <xs:documentation>A white-space separated list of query language bindings the testcase applies to.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
 </xs:schema>
