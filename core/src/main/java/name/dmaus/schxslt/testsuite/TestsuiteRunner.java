@@ -41,10 +41,12 @@ public final class TestsuiteRunner
 
     public TestsuiteResult run (final Testsuite testsuite)
     {
+        String queryBinding = testsuite.getQueryBinding();
         TestcaseRunner runner = new TestcaseRunner(testsuite.getValidator(), populator);
         List<TestcaseResult> results = new ArrayList<TestcaseResult>();
         for (Testcase testcase : testsuite.getTestcases()) {
-            results.add(runner.run(testcase, testsuite.getQueryBinding()));
+            TestcaseResult result = runner.run(testcase, queryBinding);
+            results.add(result);
         }
         return new TestsuiteResult(testsuite, results);
     }
