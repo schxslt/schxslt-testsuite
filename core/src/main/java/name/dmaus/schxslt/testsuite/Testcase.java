@@ -34,17 +34,19 @@ import org.w3c.dom.Element;
 public final class Testcase
 {
     private final String title;
+    private final List<String> queryBindings;
     private final List<Element> assertions;
     private final List<Element> documents;
     private final List<Element> schemas;
     private final ValidationResult.Status expectedValidationResultStatus;
 
-    Testcase (final String title, final ValidationResult.Status expectedValidationResultStatus, final List<Element> schemas, final List<Element> documents, final List<Element> assertions)
+    Testcase (final String title, final ValidationResult.Status expectedValidationResultStatus, final List<String> queryBindings, final List<Element> schemas, final List<Element> documents, final List<Element> assertions)
     {
         this.title = title;
         this.schemas = schemas;
         this.documents = documents;
         this.assertions = assertions;
+        this.queryBindings = queryBindings;
         this.expectedValidationResultStatus = expectedValidationResultStatus;
     }
 
@@ -56,6 +58,11 @@ public final class Testcase
     String getTitle ()
     {
         return title;
+    }
+
+    List<String> getQueryBindings ()
+    {
+        return queryBindings;
     }
 
     List<Element> getAssertions ()

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -75,10 +76,11 @@ public final class TestcaseFactory
             List<Element> schemas = getElementsByTagNameNS(document, "http://purl.oclc.org/dsdl/schematron", "schema");
             List<Element> documents = getElementsByTagNameNS(document, NAMESPACE_URI, "document");
             List<Element> assertions = getElementsByTagNameNS(document, NAMESPACE_URI, "assertion");
+            List<String> queryBindings = Arrays.asList(document.getDocumentElement().getAttribute("queryBindings").toLowerCase(Locale.ROOT).split(" "));
             String title = getElementsByTagNameNS(document, NAMESPACE_URI, "title").get(0).getTextContent();
             String expect = document.getDocumentElement().getAttribute("expect").toUpperCase(Locale.ROOT);
 
-            return new Testcase(title, ValidationResult.Status.valueOf(expect), schemas, documents, assertions);
+            return new Testcase(title, ValidationResult.Status.valueOf(expect), queryBindings, schemas, documents, assertions);
 
         } catch (ParserConfigurationException e) {
             throw new RuntimeException("Unable to create instance of XML parser", e);
