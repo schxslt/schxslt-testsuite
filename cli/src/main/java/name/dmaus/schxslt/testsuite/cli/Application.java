@@ -107,7 +107,7 @@ public final class Application
             default:
                 break;
             }
-            String msg = String.format("  %s\t%s", tcResult.getStatus(), tcResult.getTestcase().getTitle());
+            String msg = String.format("  %s\t%s", tcResult.getStatus(), tcResult.getLabel());
             System.out.println(msg);
         }
 

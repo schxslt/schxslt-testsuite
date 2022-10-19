@@ -35,13 +35,13 @@ public final class TestcaseResult
     public enum Status { PASS, FAIL, SKIP }
 
     private final ValidationResult validationResult;
-    private final PopulatedTestcase testcase;
+    private final String label;
     private final Status status;
 
-    TestcaseResult (final Status status, PopulatedTestcase testcase, ValidationResult validationResult)
+    TestcaseResult (final Status status, final String label, ValidationResult validationResult)
     {
         this.status = status;
-        this.testcase = testcase;
+        this.label = label;
         this.validationResult = validationResult;
     }
 
@@ -50,9 +50,9 @@ public final class TestcaseResult
         return validationResult;
     }
 
-    public PopulatedTestcase getTestcase ()
+    public String getLabel ()
     {
-        return testcase;
+        return label;
     }
 
     public Status getStatus ()

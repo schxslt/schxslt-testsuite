@@ -68,6 +68,6 @@ final class TestcaseRunner
                 status = TestcaseResult.Status.FAIL;
             }
         }
-        return new TestcaseResult(status, populatedTestcase, validationResult);
+        return new TestcaseResult(status, testcase.getTitle(), validationResult);
     }
 }
