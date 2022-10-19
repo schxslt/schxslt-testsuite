@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Collections;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
@@ -51,6 +52,16 @@ final class XsltValidator implements Validator
     private final TemplateProvider templates;
     private final Map<String, String> options;
 
+    XsltValidator (final TemplateProvider templates)
+    {
+        this(templates, Collections.emptyMap());
+    }
+
+    XsltValidator (final TemplateProvider templates, final Map<String, String> options)
+    {
+        this(TransformerFactory.newInstance(), templates, options);
+    }
+
     XsltValidator (final TransformerFactory transformerFactory, final TemplateProvider templates, final Map<String, String> options)
     {
         this.transformerFactory = transformerFactory;
@@ -72,6 +83,7 @@ final class XsltValidator implements Validator
         } catch (IOException e) {
             throw new RuntimeException("Unable to load document", e);
         } catch (TransformerException e) {
+            System.err.println(e.getMessage());
             return new ValidationResult(ValidationResult.Status.ERROR);
         }
     }
